@@ -19,7 +19,7 @@ class AuthService {
             await MailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
             const userDto = new UserDto(user) //id email isActivated
             const tokens = TokenService.generateTokens({...userDto})
-            await TokenService.saveToken(userDto.id, tokens.refreshTokens)
+            await TokenService.saveToken(userDto.id, tokens.refreshToken)
             return {...tokens, user: userDto}
         }
     }
@@ -27,6 +27,8 @@ class AuthService {
     async activate(activationLink) {
         const user = await UserModel.findOne({activationLink})
         if (user) {
+            user.isActivated = true
+            await user.save()
             return user.id
         } else {
             throw ApiError.BadRequest('Неккоректная ссылка активации')
@@ -40,7 +42,7 @@ class AuthService {
             if (isPassEquals) {
                 const userDto = new UserDto(user) //id email isActivated
                 const tokens = TokenService.generateTokens({...userDto})
-                await TokenService.saveToken(userDto.id, tokens.refreshTokens)
+                await TokenService.saveToken(userDto.id, tokens.refreshToken)
                 return {...tokens, user: userDto}
             } else {
                 throw ApiError.BadRequest(`Неверный пароль`)
@@ -55,16 +57,14 @@ class AuthService {
     }
 
     async refresh(refreshToken) {
-        if (refreshToken) {
+        if (!!refreshToken) {
             const userData = TokenService.validateRefreshToken(refreshToken)
             const tokenFromDB = await TokenService.findToken(refreshToken)
-            console.log(tokenFromDB)
             if (userData || tokenFromDB) {
-                console.log('yes')
                 const user = await UserModel.findById(userData.id)
                 const userDto = new UserDto(user) //id email isActivated
                 const tokens = TokenService.generateTokens({...userDto})
-                await TokenService.saveToken(userDto.id, tokens.refreshTokens)
+                await TokenService.saveToken(userDto.id, tokens.refreshToken)
                 return {...tokens, user: userDto}
             } else {
                 throw ApiError.UnauthorizedError()
