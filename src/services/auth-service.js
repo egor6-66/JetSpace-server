@@ -1,11 +1,12 @@
 const bcrypt = require("bcrypt");
 const {v4: uuidv4} = require('uuid');
 
-const UserModel = require('../models/user-model');
 const UserDto = require('../dtos/user-dto');
-const TokenService = require('../services/token-service');
-const MailService = require('../services/mail-service');
 const ApiError = require('../exceptions/api-error');
+const UserModel = require('../models/user-model');
+const TokenService = require('./token-service');
+const MailService = require('./mail-service');
+
 
 class AuthService {
     async registration(name, email, password) {
