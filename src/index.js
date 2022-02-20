@@ -1,7 +1,8 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const {graphqlHTTP} = require('express-graphql');
+const fileUpload = require('express-fileupload');
+const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
@@ -9,7 +10,7 @@ const errorMiddleware = require('./middlewares/error-middleware');
 const authMiddleware = require('./middlewares/auth-middleware');
 
 const router = require('./router/index');
-const schema = require('./GRAPHQL');
+const schema = require('./schema');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,6 +19,7 @@ app.use(cors({
     credentials: true,
     origin: process.env.CLIENT_URL,
 }));
+app.use(fileUpload({}))
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api', router);

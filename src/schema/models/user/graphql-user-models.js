@@ -5,8 +5,8 @@ const {
     GraphQLString,
     GraphQLList
 } = require("graphql");
-const PostType = require('../types/post-type');
-const Posts = require('../../models/post-model')
+const GraphQlImages = require('../image/graphql-image-models');
+const MongooseImages = require("../image/mongoose-image-models");
 
 const UserType = new GraphQLObjectType({
     name: 'User',
@@ -15,20 +15,18 @@ const UserType = new GraphQLObjectType({
         id: {type: GraphQLID},
         email: {type: GraphQLString},
         password: {type: GraphQLString},
-        // avatar: {type: GraphQLBoolean},
         name: {type: GraphQLString},
         lastName: {type: GraphQLString},
         status: {type: GraphQLString},
         age: {type: GraphQLString},
         isActivated: {type: GraphQLBoolean},
         activationLink: {type: GraphQLString},
-        // posts: {
-        //     type: new GraphQLList(PostType),
-        //     resolve(parent, args){
-        //         return Posts.findById(parent.id)
-        //     }
-        //
-        // }
+        images: {
+            type: GraphQlImages,
+            resolve(parent, args) {
+                return  MongooseImages.findOne({userId: parent.id})
+            }
+        },
     })
 });
 

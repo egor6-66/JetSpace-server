@@ -3,20 +3,20 @@ const {v4: uuidv4} = require('uuid');
 
 const UserDto = require('../dtos/user-dto');
 const ApiError = require('../exceptions/api-error');
-const UserModel = require('../models/user-model');
+const Users = require('../schema/models/user/mongoose-user-models');
 const TokenService = require('./token-service');
 const MailService = require('./mail-service');
 
 
 class AuthService {
     async registration(name, email, password) {
-        const candidate = await UserModel.findOne({email})
+        const candidate = await Users.findOne({email})
         if (candidate) {
             throw ApiError.BadRequest(`Пользователь ${email} уже зарегистрирован!`)
         } else {
             const hashPassword = await bcrypt.hash(password, 3)
             const activationLink = uuidv4()
-            const user = await UserModel.create({name, email, password: hashPassword, activationLink})
+            const user = await Users.create({name, email, password: hashPassword, activationLink})
             await MailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
             const userDto = new UserDto(user) //id email isActivated
             const tokens = TokenService.generateTokens({...userDto})
@@ -26,7 +26,7 @@ class AuthService {
     }
 
     async activate(activationLink) {
-        const user = await UserModel.findOne({activationLink})
+        const user = await Users.findOne({activationLink})
         if (user) {
             user.isActivated = true
             await user.save()
@@ -37,7 +37,7 @@ class AuthService {
     }
 
     async login(email, password) {
-        const user = await UserModel.findOne({email})
+        const user = await Users.findOne({email})
         if (user) {
             const isPassEquals = await bcrypt.compare(password, user.password)
             if (isPassEquals) {
@@ -62,7 +62,7 @@ class AuthService {
             const userData = TokenService.validateRefreshToken(refreshToken)
             const tokenFromDB = await TokenService.findToken(refreshToken)
             if (userData || tokenFromDB) {
-                const user = await UserModel.findById(userData.id)
+                const user = await Users.findById(userData.id)
                 const userDto = new UserDto(user) //id email isActivated
                 const tokens = TokenService.generateTokens({...userDto})
                 await TokenService.saveToken(userDto.id, tokens.refreshToken)
@@ -73,10 +73,6 @@ class AuthService {
         } else {
             throw ApiError.UnauthorizedError()
         }
-    }
-    async getUsers(){
-        const users = UserModel.find({})
-        return users
     }
 }
 
