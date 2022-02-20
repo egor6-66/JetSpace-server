@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const {v4: uuidv4} = require("uuid");
-const TokenModel = require('../models/token-model');
+const Tokens = require('../schema/models/token/mongoose-token-models');
 
 
 class TokenService {
@@ -30,22 +30,27 @@ class TokenService {
     }
 
     async findToken(refreshToken) {
-       const token = await TokenModel.findOne({refreshToken})
+        const token = await Tokens.findOne({refreshToken})
         return token
     }
 
     async saveToken(userId, refreshToken) {
-        const tokenData = await TokenModel.findOne({user: userId})
+        const tokenData = await Tokens.findOne({user: userId})
         if (tokenData) {
             tokenData.refreshToken = refreshToken
             return tokenData.save()
         } else {
-            return await TokenModel.create({user: userId, refreshToken})
+            return await Tokens.create({user: userId, refreshToken})
         }
     }
 
+    async tokenDecode(token) {
+        const accessToken = token.split(' ')[1]
+        return jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET);
+    }
+
     async removeToken(refreshToken) {
-        await TokenModel.deleteOne({refreshToken})
+        await Tokens.deleteOne({refreshToken})
     }
 }
 
