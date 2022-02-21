@@ -49,6 +49,7 @@ class TokenService {
         return jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET);
     }
 
+
     async removeToken(refreshToken) {
         await Tokens.deleteOne({refreshToken})
     }
