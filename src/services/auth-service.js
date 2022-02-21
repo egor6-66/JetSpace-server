@@ -29,6 +29,7 @@ class AuthService {
         const user = await Users.findOne({activationLink})
         if (user) {
             user.isActivated = true
+            user.isOnline = true
             await user.save()
             return user.id
         } else {
@@ -41,9 +42,11 @@ class AuthService {
         if (user) {
             const isPassEquals = await bcrypt.compare(password, user.password)
             if (isPassEquals) {
-                const userDto = new UserDto(user) //id email isActivated
+                const userDto = new UserDto(user)
                 const tokens = TokenService.generateTokens({...userDto})
                 await TokenService.saveToken(userDto.id, tokens.refreshToken)
+                user.isOnline = true
+                await user.save()
                 return {...tokens, user: userDto}
             } else {
                 throw ApiError.BadRequest(`Неверный пароль`)
@@ -53,7 +56,10 @@ class AuthService {
         }
     }
 
-    async logout(refreshToken) {
+    async logout(refreshToken, userId) {
+        const user = await Users.findById(userId)
+        user.isOnline = false
+        await user.save()
         await TokenService.removeToken(refreshToken)
     }
 
