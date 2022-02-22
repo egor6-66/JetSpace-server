@@ -2,7 +2,7 @@ const {
     GraphQLObjectType,
     GraphQLString, GraphQLID, GraphQLList,
 } = require("graphql");
-const MongooseImages = require("../image/mongoose-image-models");
+
 
 const PathType = new GraphQLObjectType({
     name: 'Path',
@@ -10,7 +10,6 @@ const PathType = new GraphQLObjectType({
         path: {type: GraphQLString}
     })
 })
-
 
 const ImageType = new GraphQLObjectType({
     name: 'Image',

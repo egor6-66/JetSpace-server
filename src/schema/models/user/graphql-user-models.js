@@ -3,10 +3,8 @@ const {
     GraphQLBoolean,
     GraphQLID,
     GraphQLString,
-    GraphQLList
 } = require("graphql");
-const GraphQlImages = require('../image/graphql-image-models');
-const MongooseImages = require("../image/mongoose-image-models");
+
 
 const UserType = new GraphQLObjectType({
     name: 'User',
@@ -19,14 +17,9 @@ const UserType = new GraphQLObjectType({
         lastName: {type: GraphQLString},
         status: {type: GraphQLString},
         age: {type: GraphQLString},
+        avatar: {type: GraphQLString},
         isActivated: {type: GraphQLBoolean},
         activationLink: {type: GraphQLString},
-        images: {
-            type: GraphQlImages,
-            resolve(parent, args) {
-                return  MongooseImages.findOne({userId: parent.id})
-            }
-        },
     })
 });
 
