@@ -2,9 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const {graphqlHTTP} = require('express-graphql');
 const fileUpload = require('express-fileupload');
-const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const mongoose = require('mongoose');
 
 const errorMiddleware = require('./middlewares/error-middleware');
 const authMiddleware = require('./middlewares/auth-middleware');

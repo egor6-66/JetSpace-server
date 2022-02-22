@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apollo-server-express": "^3.6.3",
     "aws-sdk": "^2.1077.0",
     "bcrypt": "^5.0.1",
     "buffer": "^6.0.3",
