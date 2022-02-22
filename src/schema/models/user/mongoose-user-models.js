@@ -9,6 +9,7 @@ const UserSchema = new Schema({
     lastName: {type: String},
     status: {type: String},
     age: {type: Number},
+    avatar: {type: String},
     isActivated: {type: Boolean, default: false},
     activationLink: {type: String},
 });

@@ -22,10 +22,13 @@ class FileService {
             if (err) {
                 console.log(err);
             }
+            await Users.findByIdAndUpdate(userId, {
+                $set: {avatar: `${process.env.DOMAIN_NAME}/${data.key}`}}, {new: true});
+
             const imagesData = await Images.findOne({userId: userId})
             if (imagesData) {
                 await Images.updateOne({userId: userId}, {
-                    $push: { images: { $each: [{path: `${process.env.DOMAIN_NAME}/${data.key}`}], $position: 0 } }
+                    $push: {images: {$each: [{path: `${process.env.DOMAIN_NAME}/${data.key}`}], $position: 0}}
                 })
             } else {
                 await Images.create({
