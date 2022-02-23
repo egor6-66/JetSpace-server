@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const {v4: uuidv4} = require("uuid");
 const Tokens = require('../schema/models/token/mongoose-token-models');
 
 

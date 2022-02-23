@@ -1,6 +1,7 @@
 const {GraphQLID} = require("graphql");
-const MongooseUsers = require("../models/user/mongoose-user-models");
-const GraphQlUsers = require("../models/user/graphql-user-models");
+const MongooseUsers = require("../../models/user/mongoose-user-models");
+const GraphQlUsers = require("../../models/user/graphql-user-models");
+
 
 const getUser = {
     type: GraphQlUsers,

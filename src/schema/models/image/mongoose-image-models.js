@@ -1,7 +1,12 @@
-const {Schema, model} = require('mongoose');
+const {
+    Schema,
+    model,
+    ObjectId
+} = require('mongoose');
+
 
 const ImageSchema = new Schema({
-    userId: {type: Schema.Types.ObjectId, ref: 'User'},
+    id: {type: ObjectId, ref: 'User'},
     userName: {type: String},
     userLastName: {type: String},
     images: {type: Array},

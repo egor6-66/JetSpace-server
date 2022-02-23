@@ -3,6 +3,7 @@ const {validationResult} = require('express-validator');
 const UserService = require('../services/auth-service')
 const ApiError = require('../exceptions/api-error');
 
+
 class AuthController {
     async registration(req, res, next) {
         try {
