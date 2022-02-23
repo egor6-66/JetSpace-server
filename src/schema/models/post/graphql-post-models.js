@@ -5,6 +5,15 @@ const {
     GraphQLList,
 } = require("graphql");
 
+const LikeType = new GraphQLObjectType({
+    name: 'Like',
+    fields: () => ({
+        id: {type: GraphQLID},
+        name: {type: GraphQLString},
+        lastName: {type: GraphQLString},
+    })
+})
+
 
 const PostType = new GraphQLObjectType({
     name: 'Post',
@@ -13,6 +22,7 @@ const PostType = new GraphQLObjectType({
         date: {type: GraphQLString},
         time: {type: GraphQLString},
         content: {type: GraphQLString},
+        likes: {type: new GraphQLList(LikeType)}
     })
 })
 

@@ -6,7 +6,6 @@ const getUserPosts = {
     type: GraphQlPosts,
     args: {userId: {type: GraphQLID}},
     resolve(parent, args) {
-        console.log('getUserPosts',args)
         return MongoosePosts.findOne({id: args.userId})
     }
 };

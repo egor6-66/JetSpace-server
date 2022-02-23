@@ -12,6 +12,7 @@ const postParams = (dateNow, args) => {
         date: dateNow.toLocaleDateString(),
         time: dateNow.toLocaleTimeString().slice(0, -3),
         content: args.content,
+        likes: [],
     }
 }
 
