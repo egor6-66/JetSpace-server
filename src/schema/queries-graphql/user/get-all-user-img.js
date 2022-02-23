@@ -1,6 +1,6 @@
 const {GraphQLID} = require("graphql");
-const GraphQlImages = require('../models/image/graphql-image-models');
-const MongooseImages = require('../models/image/mongoose-image-models');
+const GraphQlImages = require('../../models/image/graphql-image-models');
+const MongooseImages = require('../../models/image/mongoose-image-models');
 
 const getAllUserImg = {
     type: GraphQlImages,

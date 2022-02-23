@@ -1,24 +1,27 @@
 const {
     GraphQLObjectType,
-    GraphQLString, GraphQLID, GraphQLList,
+    GraphQLList,
+    GraphQLString,
+    GraphQLID,
 } = require("graphql");
 
-
-const PathType = new GraphQLObjectType({
-    name: 'Path',
-    fields: () => ({
-        path: {type: GraphQLString}
-    })
-})
 
 const ImageType = new GraphQLObjectType({
     name: 'Image',
     fields: () => ({
-        userId: {type: GraphQLID},
+        id: {type: GraphQLString},
+        path: {type: GraphQLString},
+    })
+})
+
+const ImagesType = new GraphQLObjectType({
+    name: 'Images',
+    fields: () => ({
+        id: {type: GraphQLID},
         userName: {type: GraphQLString},
         userLastName: {type: GraphQLString},
-        images: {type: new GraphQLList(PathType)},
+        images: {type: new GraphQLList(ImageType)},
     })
 });
 
-module.exports = ImageType;
+module.exports = ImagesType;

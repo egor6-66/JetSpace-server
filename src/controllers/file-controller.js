@@ -1,8 +1,8 @@
 const FileService = require('../services/file-service');
 const TokenService = require('../services/token-service');
 
-class FileController {
 
+class FileController {
     async imgUpload(req, res, next) {
         console.log()
         try {

@@ -1,6 +1,9 @@
-const GraphQlUsers = require("../models/user/graphql-user-models");
-const {GraphQLID, GraphQLString} = require("graphql");
-const MongooseUsers = require("../models/user/mongoose-user-models");
+const {
+    GraphQLID,
+    GraphQLString
+} = require("graphql");
+const GraphQlUsers = require("../../models/user/graphql-user-models");
+const MongooseUsers = require("../../models/user/mongoose-user-models");
 
 
 const editStatus = {

@@ -23,7 +23,7 @@ app.use(fileUpload({}))
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api', router);
-// app.use(authMiddleware);
+app.use(authMiddleware);
 app.use('/graphql',  graphqlHTTP({
     schema: schema,
     graphiql: true,

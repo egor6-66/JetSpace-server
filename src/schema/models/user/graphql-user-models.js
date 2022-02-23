@@ -9,8 +9,8 @@ const {
 const UserType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
-        isOnline: {type: GraphQLBoolean},
         id: {type: GraphQLID},
+        isOnline: {type: GraphQLBoolean},
         email: {type: GraphQLString},
         password: {type: GraphQLString},
         name: {type: GraphQLString},

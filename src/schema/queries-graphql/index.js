@@ -1,8 +1,10 @@
 const {GraphQLObjectType} = require("graphql");
 
-const getAllUsers = require('./get-all-users');
-const getUser = require('./get-users');
-const getAllUserImg = require('./get-all-user-img');
+const getAllUsers = require('./user/get-all-users');
+const getUser = require('./user/get-users');
+const getAllUserImg = require('./user/get-all-user-img');
+const getUserPosts = require('./post/get-user-posts')
+
 
 const Query = new GraphQLObjectType({
     name: 'Query',
@@ -10,6 +12,7 @@ const Query = new GraphQLObjectType({
         getAllUsers,
         getUser,
         getAllUserImg,
+        getUserPosts,
     }
 })
 

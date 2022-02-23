@@ -10,7 +10,6 @@ const s3bucket = new AWS.S3({
 });
 
 class FileService {
-
     async uploadFile(file, filesType, userId, userName, userLastName) {
         const params = {
             Bucket: process.env.BUCKET_NAME,
@@ -23,13 +22,17 @@ class FileService {
                 console.log(err);
             }
             await Users.findByIdAndUpdate(userId, {
-                $set: {avatar: `${process.env.DOMAIN_NAME}/${data.key}`}}, {new: true});
+                $set: {
+                    avatar: `${process.env.DOMAIN_NAME}/${data.key}`
+                },
+            }, {new: true});
 
             const imagesData = await Images.findOne({userId: userId})
             if (imagesData) {
-                await Images.updateOne({userId: userId}, {
-                    $push: {images: {$each: [{path: `${process.env.DOMAIN_NAME}/${data.key}`}], $position: 0}}
+                imagesData.images.unshift({
+                    path: `${process.env.DOMAIN_NAME}/${data.key}`,
                 })
+                await imagesData.save()
             } else {
                 await Images.create({
                     userId: userId,

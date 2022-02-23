@@ -24,4 +24,4 @@ module.exports = function (req, res, next) {
     } catch (e) {
         return next(ApiError.UnauthorizedError())
     }
-}
+};
