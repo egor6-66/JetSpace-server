@@ -1,18 +1,26 @@
 require('dotenv').config();
 const express = require('express');
+const mongoose = require('mongoose');
+const {execute, subscribe} = require('graphql')
 const {graphqlHTTP} = require('express-graphql');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const mongoose = require('mongoose');
+
 
 const errorMiddleware = require('./middlewares/error-middleware');
 const authMiddleware = require('./middlewares/auth-middleware');
 
 const router = require('./router/index');
+
 const schema = require('./schema');
+const {schema: subscriptionsSchema} = require('./schema/subscriptions-graphql');
+const {createServer} = require('http');
+const {SubscriptionServer} = require('subscriptions-transport-ws')
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const WS_PORT = 5001
 
 app.use(cors({
     credentials: true,
@@ -22,12 +30,25 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api', router);
-app.use(authMiddleware);
+// app.use(authMiddleware);
 app.use('/graphql',  graphqlHTTP({
     schema: schema,
     graphiql: true,
 }));
 app.use(errorMiddleware);
+
+const ws = createServer((req, res) => {
+    res.writeHead(400)
+    res.end()
+});
+
+ws.listen(WS_PORT, () => console.log('websocket listening on port', WS_PORT));
+const subscriptionServer = SubscriptionServer.create({
+    schema: subscriptionsSchema,
+    execute,
+    subscribe,
+    onConnect: () => console.log('client connected')
+}, {server: ws, path: '/graphql'});
 
 const start = async () => {
     try {

@@ -3,6 +3,7 @@ const {
     GraphQLString,
 } = require("graphql");
 const {v4: uuidv4} = require('uuid');
+const {pubSub} =require('../../subscriptions-graphql')
 const GraphQlPost = require('../../models/post/graphql-post-models');
 const MongoosePost = require('../../models/post/mongoose-post-models');
 
@@ -18,15 +19,15 @@ const likeParams = (args) => {
 const likePost = {
     type: GraphQlPost,
     args: {
-        ownersId: {type: GraphQLID},
+        ownerId: {type: GraphQLID},
+        postId: {type: GraphQLID},
         userId: {type: GraphQLID},
         userName: {type: GraphQLString},
         userLastName: {type: GraphQLString},
         // userAvatar: {type: GraphQLString},
-        postId: {type: GraphQLID},
     },
     async resolve(parent, args) {
-        const postsData = await MongoosePost.findOne({id: args.ownersId})
+        const postsData = await MongoosePost.findOne({userId: args.ownerId})
         postsData.posts.filter(async (post) => {
             if (post.id === args.postId) {
                 post.likes.unshift(likeParams(args))
@@ -34,6 +35,7 @@ const likePost = {
         })
         postsData.markModified(`posts`);
         await postsData.save()
+        // pubSub.publish('newLike', {newLike: postsData})
         return postsData
     }
 }

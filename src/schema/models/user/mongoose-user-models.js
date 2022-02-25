@@ -5,7 +5,6 @@ const {
 
 
 const UserSchema = new Schema({
-    isOnline: {type: Boolean},
     email: {type: String, unique: true, required: true},
     password: {type: String, required: true},
     name: {type: String},
@@ -13,6 +12,7 @@ const UserSchema = new Schema({
     status: {type: String, default: ''},
     age: {type: Number},
     avatar: {type: String, default: `${process.env.DEFAULT_ASSETS}/noAvatar.jpeg`},
+    isOnline: {type: Boolean},
     isActivated: {type: Boolean, default: false},
     activationLink: {type: String},
 });
