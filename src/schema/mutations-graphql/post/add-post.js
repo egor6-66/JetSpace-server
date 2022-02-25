@@ -37,9 +37,7 @@ const addPost = {
                 userId: args.userId,
                 posts: [postParams(dateNow, args)],
             })
-            await pubSub.publish('newPost', {
-                newPost: newPosts.posts[0]
-            })
+            await pubSub.publish('newPost', {newPost: newPosts.posts[0]})
             return newPosts
         }
     }

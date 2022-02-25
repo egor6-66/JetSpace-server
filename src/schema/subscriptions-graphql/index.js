@@ -9,31 +9,34 @@ const typeDefs = gql`
     type Query{
         getUserPosts: [Post]
     }
-    type like {
+    type Like {
         id: String
-        name: String
-        lastName: String
+        postId: String
+        userId: String
+        userName: String
+        userLastName: String
+        userAvatar: String
     }
-
+ 
     type Post{
         id: ID
         date: String
         time: String
-        content: String,
-        likes: [like]
+        content: String
+        likes: [Like]
     }
-
-#    type Posts {
-#        id: String
-#        posts:[post]
-#    }
+    
     type Subscription{
-        newPost: Post,
+        newPost: Post
+        newLike: Like
     }
 `
 
 const resolvers = {
     Subscription: {
+        newLike: {
+            subscribe: () => pubSub.asyncIterator('newLike')
+        },
         newPost: {
             subscribe: () => pubSub.asyncIterator('newPost')
         }

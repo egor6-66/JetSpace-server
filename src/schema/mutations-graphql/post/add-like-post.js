@@ -3,41 +3,43 @@ const {
     GraphQLString,
 } = require("graphql");
 const {v4: uuidv4} = require('uuid');
-const {pubSub} =require('../../subscriptions-graphql')
+const {pubSub} = require('../../subscriptions-graphql');
 const GraphQlPost = require('../../models/post/graphql-post-models');
 const MongoosePost = require('../../models/post/mongoose-post-models');
+const MongooseUser = require('../../models/user/mongoose-user-models');
 
-const likeParams = (args) => {
+const likeParams = (userData, args) => {
     return {
         id: uuidv4(),
-        userId: args.userId,
-        userName: args.userName,
-        userLastName: args.userLastName,
+        postId: args.postId,
+        userId: userData._id,
+        userName: userData.name,
+        userLastName: userData.lastName,
+        userAvatar: userData.avatar,
     }
 }
 
-const likePost = {
+const addLikePost = {
     type: GraphQlPost,
     args: {
         ownerId: {type: GraphQLID},
         postId: {type: GraphQLID},
         userId: {type: GraphQLID},
-        userName: {type: GraphQLString},
-        userLastName: {type: GraphQLString},
-        // userAvatar: {type: GraphQLString},
     },
     async resolve(parent, args) {
         const postsData = await MongoosePost.findOne({userId: args.ownerId})
+        const userData = await MongooseUser.findById(args.userId)
         postsData.posts.filter(async (post) => {
             if (post.id === args.postId) {
-                post.likes.unshift(likeParams(args))
+                const newLike = likeParams(userData, args)
+                post.likes.unshift(newLike)
+                await pubSub.publish('newLike', {newLike: newLike})
             }
         })
         postsData.markModified(`posts`);
         await postsData.save()
-        // pubSub.publish('newLike', {newLike: postsData})
         return postsData
     }
 }
 
-module.exports = likePost;
+module.exports = addLikePost;

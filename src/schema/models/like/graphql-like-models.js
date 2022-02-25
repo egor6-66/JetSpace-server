@@ -9,11 +9,12 @@ const LikeType = new GraphQLObjectType({
     name: 'Like',
     fields: () => ({
         id: {type: GraphQLID},
+        postId: {type: GraphQLID},
         userId: {type: GraphQLID},
-        name: {type: GraphQLString},
-        lastName: {type: GraphQLString},
+        userName: {type: GraphQLString},
+        userLastName: {type: GraphQLString},
+        userAvatar: {type: GraphQLString},
     })
 })
 
 module.exports = LikeType;
-
