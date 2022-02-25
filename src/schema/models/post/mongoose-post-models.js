@@ -1,16 +1,13 @@
 const {
     Schema,
     model,
-    ObjectId
+    ObjectId,
 } = require('mongoose');
 
 
 const PostSchema = new Schema({
-    id: {type: ObjectId, ref: 'User'},
-    userName: {type: String, default: ''},
-    userLastName: {type: String, default: ''},
-    userAvatar: {type: String, default: ''},
-    posts: {type: Array, default: []},
+    userId: {type: String},
+    posts: {type: Array}
 });
 
 module.exports = model('Post', PostSchema);

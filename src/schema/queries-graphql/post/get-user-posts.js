@@ -1,13 +1,13 @@
 const {GraphQLID} = require("graphql");
-const GraphQlPosts = require('../../models/post/graphql-post-models');
-const MongoosePosts = require('../../models/post/mongoose-post-models');
+const GraphQlPost = require('../../models/post/graphql-post-models');
+const MongoosePost = require('../../models/post/mongoose-post-models');
 
 const getUserPosts = {
-    type: GraphQlPosts,
+    type: GraphQlPost,
     args: {userId: {type: GraphQLID}},
-    resolve(parent, args) {
-        console.log('getUserPosts',args)
-        return MongoosePosts.findOne({id: args.userId})
+    async resolve(parent, args) {
+        const postData = await MongoosePost.findOne({userId: args.userId})
+        return postData
     }
 };
 
