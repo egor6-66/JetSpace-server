@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const {execute, subscribe} = require('graphql')
 const {graphqlHTTP} = require('express-graphql');
+const fileUpload = require('express-fileupload')
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
@@ -26,7 +27,7 @@ app.use(cors({
     credentials: true,
     origin: process.env.CLIENT_URL,
 }));
-
+app.use(fileUpload({}));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api', router);

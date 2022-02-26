@@ -11,6 +11,7 @@ const s3bucket = new AWS.S3({
 
 class FileService {
     async uploadFile(file, filesType, userId, userName, userLastName) {
+
         const params = {
             Bucket: process.env.BUCKET_NAME,
             Key: `${userId}/${filesType}/${file.name}`,
@@ -26,7 +27,7 @@ class FileService {
                     avatar: `${process.env.DOMAIN_NAME}/${data.key}`
                 },
             }, {new: true});
-
+            console.log('fef')
             const imagesData = await Images.findOne({userId: userId})
             if (imagesData) {
                 imagesData.images.unshift({

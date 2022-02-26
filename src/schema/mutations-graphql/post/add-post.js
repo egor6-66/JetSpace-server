@@ -8,8 +8,9 @@ const GraphQlPost = require('../../models/post/graphql-post-models');
 const MongoosePost = require('../../models/post/mongoose-post-models');
 
 
-const postParams = (dateNow, args) => {
+const postParams = (parentId, dateNow, args) => {
     return {
+        parentId: parentId,
         id: uuidv4(),
         date: dateNow.toLocaleDateString(),
         time: dateNow.toLocaleTimeString().slice(0, -3),
@@ -28,15 +29,14 @@ const addPost = {
         const dateNow = new Date();
         const postsData = await MongoosePost.findOne({userId: args.userId})
         if (postsData) {
-            postsData.posts.unshift(postParams(dateNow, args))
+            postsData.posts.unshift(postParams(postsData._id,dateNow, args))
             await postsData.save()
             await pubSub.publish('newPost', {newPost: postsData.posts[0]})
             return postsData
         } else {
-            const newPosts = await MongoosePost.create({
-                userId: args.userId,
-                posts: [postParams(dateNow, args)],
-            })
+            const newPosts = await MongoosePost.create({userId: args.userId})
+            newPosts.posts.unshift(postParams(newPosts._id, dateNow, args))
+            await newPosts.save()
             await pubSub.publish('newPost', {newPost: newPosts.posts[0]})
             return newPosts
         }

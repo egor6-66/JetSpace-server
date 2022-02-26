@@ -5,7 +5,7 @@
 // const {v4: uuidv4} = require("uuid");
 // const GraphQlMessage = require('../../models/message/graphql-message-models');
 // const MongooseMessage = require('../../models/message/mongoose-message-models');
-// const MongoosePost = require("../../models/post/mongoose-post-models");
+// const MongoosePost = require("../../models/post.js/mongoose-post.js-models");
 //
 // const messageParams = (dateNow, args) => {
 //     return {

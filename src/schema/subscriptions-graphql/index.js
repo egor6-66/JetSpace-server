@@ -1,40 +1,24 @@
 const gql = require('graphql-tag');
 const {PubSub} = require('graphql-subscriptions');
-const {makeExecutableSchema} = require('graphql-tools')
+const {makeExecutableSchema} = require('graphql-tools');
 
+const Notification = require('./models/notification');
+const Post = require('./models/post');
+const Like = require('./models/like')
 
 const pubSub = new PubSub();
 
 const typeDefs = gql`
+
+    ${Like}
+    ${Post}
+    ${Notification}
+    
     type Query{
         getUserPosts: [Post]
         getNotification: [Notification]
     }
-    type Like {
-        id: String
-        postId: String
-        userId: String
-        userName: String
-        userLastName: String
-        userAvatar: String
-    }
- 
-    type Post{
-        id: ID
-        date: String
-        time: String
-        content: String
-        likes: [Like]
-    }
     
-    type Notification{
-        id: ID
-        title: String
-        content: String
-        userId: ID
-        userAvatar: String
-    }
-
     type Subscription{
         newPost: Post
         newLike: Like

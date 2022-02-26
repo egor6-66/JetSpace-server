@@ -8,7 +8,10 @@ const {
 const NotificationType = new GraphQLObjectType({
     name: 'Notification',
     fields: () => ({
+        parentId: {type: GraphQLID},
         id: {type: GraphQLID},
+        date: {type: GraphQLString},
+        time: {type: GraphQLString},
         title:{type: GraphQLString},
         content: {type: GraphQLString},
         userId: {type: GraphQLID},

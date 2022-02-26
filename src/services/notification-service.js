@@ -4,6 +4,19 @@ const MongoosePost = require('../schema/models/post/mongoose-post-models');
 const {pubSub} = require("../schema/subscriptions-graphql");
 
 
+const notificationParams = (parentId, dateNow, title, content, userId, payload) => {
+    return {
+        parentId: parentId,
+        id: uuidv4(),
+        date: dateNow.toLocaleDateString(),
+        time: dateNow.toLocaleTimeString().slice(0, -3),
+        title: title,
+        content: content,
+        userId: userId,
+        userAvatar: payload.userAvatar
+    }
+}
+
 class NotificationService {
 
     async addNotification(ownerId, userId, payload, action) {
@@ -12,28 +25,20 @@ class NotificationService {
         const content = await validators.getContent(ownerId, payload)
 
         if (ownerId !== userId) {
+            const dateNow = new Date();
+
             if (notificationsData) {
-                notificationsData.notifications.unshift({
-                    id: uuidv4(),
-                    title: title,
-                    content: content,
-                    userId: userId,
-                    userAvatar: payload.userAvatar
-                })
-               await notificationsData.save()
+                notificationsData.notifications.unshift(
+                    notificationParams(notificationsData._id, dateNow, title, content, userId, payload))
+                await notificationsData.save()
                 await pubSub.publish('newNotification', {newNotification: notificationsData.notifications[0]})
             } else {
-                await MongooseNotification.create({
-                    userId: ownerId,
-                    notifications: [{
-                        id: uuidv4(),
-                        title: title,
-                        content: content,
-                        userId: userId,
-                        userAvatar: payload.userAvatar
-                    }],
-                })
-                await pubSub.publish('newNotification', {newNotification: notificationsData.notifications[0]})
+                const newNotifications = await MongooseNotification.create({userId: ownerId,})
+                newNotifications.notifications.unshift(
+                    notificationParams(newNotifications._id, dateNow, title, content, userId, payload)
+                )
+                await newNotifications.save()
+                await pubSub.publish('newNotification', {newNotification: newNotifications.notifications[0]})
             }
         }
     }
@@ -53,6 +58,7 @@ class Validators {
         }
     }
 }
+
 const validators = new Validators()
 
 

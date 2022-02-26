@@ -27,6 +27,7 @@ const addLikePost = {
         postId: {type: GraphQLID},
         userId: {type: GraphQLID},
     },
+
     async resolve(parent, args) {
         const postsData = await MongoosePost.findOne({userId: args.ownerId})
         const userData = await MongooseUser.findById(args.userId)

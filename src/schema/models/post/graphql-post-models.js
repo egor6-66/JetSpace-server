@@ -10,6 +10,7 @@ const GraphQlLike = require('../like/graphql-like-models');
 const PostType = new GraphQLObjectType({
     name: 'Post',
     fields: () => ({
+        parentId: {type: GraphQLID},
         id: {type: GraphQLID},
         date: {type: GraphQLString},
         time: {type: GraphQLString},
