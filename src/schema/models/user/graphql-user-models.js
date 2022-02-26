@@ -5,13 +5,13 @@ const {
     GraphQLID,
     GraphQLString,
 } = require("graphql");
+const GraphQlNotification = require('../notification/graphql-notification-models');
 
 
 const UserType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
         id: {type: GraphQLID},
-        isOnline: {type: GraphQLBoolean},
         email: {type: GraphQLString},
         password: {type: GraphQLString},
         name: {type: GraphQLString},
@@ -19,6 +19,7 @@ const UserType = new GraphQLObjectType({
         status: {type: GraphQLString},
         age: {type: GraphQLString},
         avatar: {type: GraphQLString},
+        isOnline: {type: GraphQLBoolean},
         isActivated: {type: GraphQLBoolean},
         activationLink: {type: GraphQLString},
     })

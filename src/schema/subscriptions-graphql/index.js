@@ -8,6 +8,7 @@ const pubSub = new PubSub();
 const typeDefs = gql`
     type Query{
         getUserPosts: [Post]
+        getNotification: [Notification]
     }
     type Like {
         id: String
@@ -26,9 +27,18 @@ const typeDefs = gql`
         likes: [Like]
     }
     
+    type Notification{
+        id: ID
+        title: String
+        content: String
+        userId: ID
+        userAvatar: String
+    }
+
     type Subscription{
         newPost: Post
         newLike: Like
+        newNotification: Notification
     }
 `
 
@@ -39,6 +49,9 @@ const resolvers = {
         },
         newPost: {
             subscribe: () => pubSub.asyncIterator('newPost')
+        },
+        newNotification: {
+            subscribe: () => pubSub.asyncIterator('newNotification')
         }
     }
 }
