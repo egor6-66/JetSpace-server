@@ -6,9 +6,7 @@ const {
 
 
 const ImageSchema = new Schema({
-    id: {type: ObjectId, ref: 'User'},
-    userName: {type: String},
-    userLastName: {type: String},
+    userId: {type: ObjectId, ref: 'User'},
     images: {type: Array},
 });
 

@@ -1,5 +1,4 @@
 const gql = require("graphql-tag");
-const {v4: uuidv4} = require("uuid");
 
 
 const Notification = gql`
