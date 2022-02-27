@@ -11,6 +11,7 @@ const cors = require('cors');
 const errorMiddleware = require('./middlewares/error-middleware');
 const authMiddleware = require('./middlewares/auth-middleware');
 
+
 const router = require('./router/index');
 
 const schema = require('./schema');
