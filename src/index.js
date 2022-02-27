@@ -12,7 +12,7 @@ const errorMiddleware = require('./middlewares/error-middleware');
 const authMiddleware = require('./middlewares/auth-middleware');
 
 
-const router = require('./router/index');
+const router = require('./router');
 
 const schema = require('./schema');
 const {schema: subscriptionsSchema} = require('./schema/subscriptions-graphql');
