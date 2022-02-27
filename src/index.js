@@ -20,8 +20,8 @@ const {SubscriptionServer} = require('subscriptions-transport-ws')
 
 
 const app = express();
-const PORT = process.env.PORT || 5000;
-const WS_PORT = 5001
+const PORT = process.env.PORT;
+const WS_PORT = process.env.WS_PORT
 
 app.use(cors({
     credentials: true,
