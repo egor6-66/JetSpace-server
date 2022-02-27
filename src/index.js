@@ -31,7 +31,7 @@ app.use(cors({
 app.use(fileUpload({}));
 app.use(express.json());
 app.use(cookieParser());
-app.use(router);
+app.use(PORT, router);
 // app.use(authMiddleware);
 const graphQlPath = process.env.GRAPHQL_PATH || `/graphql`
 app.use(graphQlPath,  graphqlHTTP({
