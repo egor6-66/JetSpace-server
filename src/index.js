@@ -33,7 +33,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(router);
 // app.use(authMiddleware);
-app.use(`/graphql`,  graphqlHTTP({
+const graphQlPath = process.env.GRAPHQL_PATH || `/graphql`
+app.use(graphQlPath,  graphqlHTTP({
     schema: schema,
     graphiql: true,
 }));
