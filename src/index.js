@@ -31,9 +31,9 @@ app.use(cors({
 app.use(fileUpload({}));
 app.use(express.json());
 app.use(cookieParser());
-app.use('/api', router);
+app.use(router);
 // app.use(authMiddleware);
-app.use('/graphql',  graphqlHTTP({
+app.use(`/graphql`,  graphqlHTTP({
     schema: schema,
     graphiql: true,
 }));
