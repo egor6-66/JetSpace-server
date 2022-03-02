@@ -32,7 +32,7 @@ app.use(cors({
 app.use(fileUpload({}));
 app.use(express.json());
 app.use(cookieParser());
-app.use(router);
+app.use('/api',router);
 // app.use(authMiddleware);
 
 app.use(`/graphql`,  graphqlHTTP({

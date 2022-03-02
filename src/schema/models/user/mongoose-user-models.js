@@ -13,6 +13,8 @@ const UserSchema = new Schema({
     age: {type: Number},
     avatar: {type: String, default: `${process.env.DEFAULT_ASSETS}/noAvatar.jpeg`},
     headerAvatar: {type: String},
+    likeCounter: {type: String, default: '0'},
+    dislikeCounter: {type: String, default: '0'},
     isOnline: {type: Boolean},
     theme: {type: String, default: 'light'},
     isActivated: {type: Boolean, default: false},

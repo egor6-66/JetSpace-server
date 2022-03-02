@@ -19,6 +19,9 @@ const UserType = new GraphQLObjectType({
         age: {type: GraphQLString},
         avatar: {type: GraphQLString},
         headerAvatar: {type: GraphQLString},
+        likeCounter: {type: GraphQLString},
+        dislikeCounter: {type: GraphQLString},
+
         theme: {type: GraphQLString},
         isOnline: {type: GraphQLBoolean},
         isActivated: {type: GraphQLBoolean},
