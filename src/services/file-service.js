@@ -33,7 +33,6 @@ const deleteBeforeAdd = async (filePath) => {
 
 }
 
-
 class FileService {
     async uploadFile(file, userId) {
         const key = Object.keys(file)
