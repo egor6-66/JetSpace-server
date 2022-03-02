@@ -33,6 +33,11 @@ const deleteBeforeAdd = async (filePath) => {
 
 }
 
+const getFileKey = (key, userId, file) => {
+    if (`${key}` === 'headerAvatar') return `${userId}/${key}/${uuidv4()}`
+    if (`${key}` === 'avatar') return `${userId}/${key}s/${file[key].name}`
+}
+
 class FileService {
     async uploadFile(file, userId) {
         const key = Object.keys(file)
@@ -40,7 +45,7 @@ class FileService {
 
         const awsParams = {
             Bucket: process.env.BUCKET_NAME,
-            Key: `${userId}/${key}s/${file[key].name}`,
+            Key: getFileKey(key, userId, file),
             Body: file[key].data,
         }
 
