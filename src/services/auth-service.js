@@ -77,7 +77,7 @@ class AuthService {
                 const userDto = new UserDto(user) //id email isActivated
                 const tokens = TokenService.generateTokens({...userDto})
                 await TokenService.saveToken(userDto.id, tokens.refreshToken)
-                return {...tokens, user: userDto}
+                return {...tokens, user: {...userDto}}
             } else {
                 throw ApiError.UnauthorizedError()
             }

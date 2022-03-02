@@ -3,6 +3,7 @@ class UserDto {
     email;
     name;
     lastName;
+    theme;
     isActivated;
 
     constructor(model) {
@@ -10,6 +11,7 @@ class UserDto {
         this.email = model.email;
         this.name = model.name;
         this.lastName = model.lastName;
+        this.theme = model.theme;
         this.isActivated = model.isActivated;
     }
 }

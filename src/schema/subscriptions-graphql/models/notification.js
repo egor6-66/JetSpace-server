@@ -6,7 +6,6 @@ const Notification = gql`
         parentId: ID
         id: ID
         date: String
-        time: String
         title: String
         content: String
         userId: ID

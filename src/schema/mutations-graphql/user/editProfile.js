@@ -12,12 +12,16 @@ const editProfile = {
         id: {type: GraphQLID},
         name: {type: GraphQLString},
         lastName: {type: GraphQLString},
+        headerAvatar: {type: GraphQLString},
+        theme:  {type: GraphQLString},
     },
     resolve(parent, args) {
         return MongooseUsers.findByIdAndUpdate(args.id, {
             $set: {
                 name: args.name,
-                lastName: args.lastName
+                lastName: args.lastName,
+                headerAvatar: args.headerAvatar,
+                theme: args.theme,
             }
         }, {new: true});
     }

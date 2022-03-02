@@ -3,6 +3,7 @@ const {
     GraphQLString,
 } = require("graphql");
 const {v4: uuidv4} = require('uuid');
+const moment = require('moment')
 const {pubSub} = require("../../subscriptions-graphql");
 const GraphQlPost = require('../../models/post/graphql-post-models');
 const MongoosePost = require('../../models/post/mongoose-post-models');
@@ -12,8 +13,7 @@ const postParams = (parentId, dateNow, args) => {
     return {
         parentId: parentId,
         id: uuidv4(),
-        date: dateNow.toLocaleDateString(),
-        time: dateNow.toLocaleTimeString().slice(0, -3),
+        date: dateNow,
         content: args.content,
         likes: []
     }
@@ -26,7 +26,7 @@ const addPost = {
         content: {type: GraphQLString},
     },
     async resolve(parent, args) {
-        const dateNow = new Date();
+        const dateNow = moment().locale('ru').format('llll')
         const postsData = await MongoosePost.findOne({userId: args.userId})
         if (postsData) {
             postsData.posts.unshift(postParams(postsData._id,dateNow, args))

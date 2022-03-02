@@ -7,7 +7,7 @@ class FileController {
         try {
             const userData = await TokenService.tokenDecode(req.headers.authorization)
             const {id, name, lastName} = userData
-            await FileService.uploadFile(req.files.image, 'img', id, name, lastName)
+            await FileService.uploadFile(req.files, id, name, lastName)
             return res.json('sucess')
         } catch (e) {
             next(e)

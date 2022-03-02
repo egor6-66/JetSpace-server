@@ -13,7 +13,6 @@ const PostType = new GraphQLObjectType({
         parentId: {type: GraphQLID},
         id: {type: GraphQLID},
         date: {type: GraphQLString},
-        time: {type: GraphQLString},
         content: {type: GraphQLString},
         likes: {type: new GraphQLList(GraphQlLike),
         }

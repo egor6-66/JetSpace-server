@@ -11,7 +11,6 @@ const NotificationType = new GraphQLObjectType({
         parentId: {type: GraphQLID},
         id: {type: GraphQLID},
         date: {type: GraphQLString},
-        time: {type: GraphQLString},
         title:{type: GraphQLString},
         content: {type: GraphQLString},
         userId: {type: GraphQLID},

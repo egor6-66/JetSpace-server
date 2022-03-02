@@ -25,6 +25,7 @@ const PORT = process.env.PORT;
 const WS_PORT = process.env.WS_PORT
 
 app.use(cors({
+    ws: WS_PORT,
     credentials: true,
     origin: process.env.CLIENT_URL,
 }));
@@ -33,8 +34,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(router);
 // app.use(authMiddleware);
-const graphQlPath = process.env.GRAPHQL_PATH || `/graphql`
-app.use(graphQlPath,  graphqlHTTP({
+
+app.use(`/graphql`,  graphqlHTTP({
     schema: schema,
     graphiql: true,
 }));

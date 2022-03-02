@@ -18,37 +18,58 @@ const imageParams = (parentId, path) => {
     }
 }
 
+const deleteBeforeAdd = async (filePath) => {
+    const path = filePath.split('/').slice(-3).join('/')
+    console.log(path)
+    const awsParams = {
+        Bucket: process.env.BUCKET_NAME,
+        Key: path
+    }
+
+    await s3bucket.deleteObject(awsParams, async function (err, data) {
+        err && console.log(err)
+        data && console.log(data)
+    })
+
+}
+
+
 class FileService {
-    async uploadFile(file, filesType, userId, userName, userLastName) {
+    async uploadFile(file, userId) {
+        const key = Object.keys(file)
+        const userData = await Users.findById(userId)
 
-        const params = {
+        const awsParams = {
             Bucket: process.env.BUCKET_NAME,
-            Key: `${userId}/${filesType}/${file.name}`,
-            Body: file.data,
-        };
+            Key: `${userId}/${key}s/${file[key].name}`,
+            Body: file[key].data,
+        }
 
-        await s3bucket.upload(params, async function (err, data) {
+        if (`${key}` === 'headerAvatar') {
+            userData.headerAvatar && await deleteBeforeAdd(userData.headerAvatar)
+        }
+
+        await s3bucket.upload(awsParams, async function (err, data) {
             if (err) {
                 console.log(err);
             }
-            console.log(data)
-            await Users.findByIdAndUpdate(userId, {
-                $set: {
-                    avatar: `${process.env.DOMAIN_NAME}/${data.key}`
-                },
-            }, {new: true});
 
-            const imagesData = await Images.findOne({userId: userId})
-            if (imagesData) {
-                imagesData.images.unshift(imageParams(imagesData._id, `${process.env.DOMAIN_NAME}/${data.key}`))
-                await imagesData.save()
-            } else {
-                const newImagesData = await Images.create({userId: userId,})
-                newImagesData.images.unshift(imageParams(newImagesData._id, `${process.env.DOMAIN_NAME}/${data.key}`))
-                await newImagesData.save()
+            if (`${key}` === 'avatar') {
+                const imagesData = await Images.findOne({userId: userId})
+                if (imagesData) {
+                    imagesData.images.unshift(imageParams(imagesData._id, `${process.env.DOMAIN_NAME}/${data.key}`))
+                    await imagesData.save()
+                } else {
+                    const newImagesData = await Images.create({userId: userId})
+                    newImagesData.images.unshift(imageParams(newImagesData._id, `${process.env.DOMAIN_NAME}/${data.key}`))
+                    await newImagesData.save()
+                }
             }
+            userData[key] = `${process.env.DOMAIN_NAME}/${data.key}`
+            await userData.save()
         });
     }
+
 }
 
 module.exports = new FileService();

@@ -12,7 +12,9 @@ const UserSchema = new Schema({
     status: {type: String, default: ''},
     age: {type: Number},
     avatar: {type: String, default: `${process.env.DEFAULT_ASSETS}/noAvatar.jpeg`},
+    headerAvatar: {type: String},
     isOnline: {type: Boolean},
+    theme: {type: String, default: 'light'},
     isActivated: {type: Boolean, default: false},
     activationLink: {type: String},
 });

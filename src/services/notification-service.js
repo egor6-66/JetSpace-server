@@ -2,14 +2,14 @@ const {v4: uuidv4} = require("uuid");
 const MongooseNotification = require("../schema/models/notification/mongoose-notification-models");
 const MongoosePost = require('../schema/models/post/mongoose-post-models');
 const {pubSub} = require("../schema/subscriptions-graphql");
+const moment = require("moment");
 
 
 const notificationParams = (parentId, dateNow, title, content, userId, payload) => {
     return {
         parentId: parentId,
         id: uuidv4(),
-        date: dateNow.toLocaleDateString(),
-        time: dateNow.toLocaleTimeString().slice(0, -3),
+        date: dateNow,
         title: title,
         content: content,
         userId: userId,
@@ -20,13 +20,13 @@ const notificationParams = (parentId, dateNow, title, content, userId, payload) 
 class NotificationService {
 
     async addNotification(ownerId, userId, payload, action) {
+
         const notificationsData = await MongooseNotification.findOne({userId: ownerId})
         const title = await validators.getTitle(action, payload)
         const content = await validators.getContent(ownerId, payload)
 
         if (ownerId !== userId) {
-            const dateNow = new Date();
-
+            const dateNow = moment().locale('ru').format('llll')
             if (notificationsData) {
                 notificationsData.notifications.unshift(
                     notificationParams(notificationsData._id, dateNow, title, content, userId, payload))
