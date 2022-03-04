@@ -2,18 +2,17 @@ const {
     GraphQLID,
     GraphQLString
 } = require("graphql");
-const GraphQlUsers = require("../../models/user/graphql-user-models");
-const MongooseUsers = require("../../models/user/mongoose-user-models");
+const {GraphQlModels, MongooseModels} = require('../../models')
 
 
 const editStatus = {
-    type: GraphQlUsers,
+    type: GraphQlModels.User,
         args: {
         id: {type: GraphQLID},
         status: {type: GraphQLString},
     },
     resolve(parent, args) {
-        return MongooseUsers.findByIdAndUpdate(args.id, {
+        return MongooseModels.User.findByIdAndUpdate(args.id, {
             $set: {
                 status: args.status,
             }

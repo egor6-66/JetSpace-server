@@ -32,10 +32,9 @@ app.use(cors({
 app.use(fileUpload({}));
 app.use(express.json());
 app.use(cookieParser());
-app.use('/api',router);
+app.use('/api', router);
 // app.use(authMiddleware);
-
-app.use(`/graphql`,  graphqlHTTP({
+app.use(`/graphql`, graphqlHTTP({
     schema: schema,
     graphiql: true,
 }));
@@ -47,7 +46,7 @@ const ws = createServer((req, res) => {
 });
 
 ws.listen(WS_PORT, () => console.log('websocket listening on port', WS_PORT));
-const subscriptionServer = SubscriptionServer.create({
+SubscriptionServer.create({
     schema: subscriptionsSchema,
     execute,
     subscribe,
@@ -65,4 +64,4 @@ const start = async () => {
     }
 }
 
-start()
+start().then(r => console.log(r))

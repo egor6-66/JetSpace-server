@@ -1,7 +1,6 @@
-const {v4: uuidv4} = require("uuid");
-const MongooseNotification = require("../schema/models/notification/mongoose-notification-models");
-const MongoosePost = require('../schema/models/post/mongoose-post-models');
+const {MongooseModels} = require('../schema/models')
 const {pubSub} = require("../schema/subscriptions-graphql");
+const {v4: uuidv4} = require("uuid");
 const moment = require("moment");
 
 
@@ -21,7 +20,7 @@ class NotificationService {
 
     async addNotification(ownerId, userId, payload, action) {
 
-        const notificationsData = await MongooseNotification.findOne({userId: ownerId})
+        const notificationsData = await MongooseModels.Notification.findOne({userId: ownerId})
         const title = await validators.getTitle(action, payload)
         const content = await validators.getContent(ownerId, payload)
 
@@ -33,7 +32,7 @@ class NotificationService {
                 await notificationsData.save()
                 await pubSub.publish('newNotification', {newNotification: notificationsData.notifications[0]})
             } else {
-                const newNotifications = await MongooseNotification.create({userId: ownerId,})
+                const newNotifications = await MongooseModels.Notification.create({userId: ownerId,})
                 newNotifications.notifications.unshift(
                     notificationParams(newNotifications._id, dateNow, title, content, userId, payload)
                 )
@@ -52,7 +51,7 @@ class Validators {
 
     async getContent(ownerId, payload) {
         if (payload.postId) {
-            const postsData = await MongoosePost.findOne({userId: ownerId})
+            const postsData = await MongooseModels.Post.findOne({userId: ownerId})
             const postData = postsData.posts.find((post) => post.id === payload.postId)
             return postData.content
         }

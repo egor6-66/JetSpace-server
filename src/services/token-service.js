@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const Tokens = require('../schema/models/token/mongoose-token-models');
+const {MongooseModels} = require('../schema/models')
 
 
 class TokenService {
@@ -29,17 +29,17 @@ class TokenService {
     }
 
     async findToken(refreshToken) {
-        const token = await Tokens.findOne({refreshToken})
+        const token = await MongooseModels.Token.findOne({refreshToken})
         return token
     }
 
     async saveToken(userId, refreshToken) {
-        const tokenData = await Tokens.findOne({user: userId})
+        const tokenData = await MongooseModels.Token.findOne({user: userId})
         if (tokenData) {
             tokenData.refreshToken = refreshToken
             return tokenData.save()
         } else {
-            return await Tokens.create({user: userId, refreshToken})
+            return await MongooseModels.Token.create({user: userId, refreshToken})
         }
     }
 
@@ -50,7 +50,7 @@ class TokenService {
 
 
     async removeToken(refreshToken) {
-        await Tokens.deleteOne({refreshToken})
+        await MongooseModels.Token.deleteOne({refreshToken})
     }
 }
 
