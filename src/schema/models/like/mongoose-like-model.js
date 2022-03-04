@@ -4,9 +4,9 @@ const {
 } = require('mongoose');
 
 
-const allLikesSchema = new Schema({
+const LikeSchema = new Schema({
     userId: {type: String},
     likes: {type: Array}
 });
 
-module.exports = model('allLike', allLikesSchema);
+module.exports = model('like', LikeSchema);

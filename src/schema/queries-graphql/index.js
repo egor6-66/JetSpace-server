@@ -13,7 +13,7 @@ const Query = new GraphQLObjectType({
         getAllUsers,
         getUser,
         getAllUserImg,
-        getAllLikes,
+        // getAllLikes,
         getUserPosts,
         getNotifications,
     }

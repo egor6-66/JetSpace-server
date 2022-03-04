@@ -1,7 +1,6 @@
 const AWS = require('aws-sdk');
 const {v4: uuidv4} = require("uuid");
-const Users = require('../schema/models/user/mongoose-user-models');
-const Images = require("../schema/models/image/mongoose-image-models");
+const {MongooseModels} = require('../schema/models');
 
 
 const s3bucket = new AWS.S3({
@@ -41,7 +40,7 @@ const getFileKey = (key, userId, file) => {
 class FileService {
     async uploadFile(file, userId) {
         const key = Object.keys(file)
-        const userData = await Users.findById(userId)
+        const userData = await MongooseModels.User.findById(userId)
 
         const awsParams = {
             Bucket: process.env.BUCKET_NAME,
@@ -59,12 +58,12 @@ class FileService {
             }
 
             if (`${key}` === 'avatar') {
-                const imagesData = await Images.findOne({userId: userId})
+                const imagesData = await MongooseModels.Image.findOne({userId: userId})
                 if (imagesData) {
                     imagesData.images.unshift(imageParams(imagesData._id, `${process.env.DOMAIN_NAME}/${data.key}`))
                     await imagesData.save()
                 } else {
-                    const newImagesData = await Images.create({userId: userId})
+                    const newImagesData = await MongooseModels.Image.create({userId: userId})
                     newImagesData.images.unshift(imageParams(newImagesData._id, `${process.env.DOMAIN_NAME}/${data.key}`))
                     await newImagesData.save()
                 }
