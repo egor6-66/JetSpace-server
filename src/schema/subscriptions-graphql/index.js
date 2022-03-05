@@ -1,11 +1,8 @@
 const gql = require('graphql-tag');
 const {PubSub} = require('graphql-subscriptions');
 const {makeExecutableSchema} = require('graphql-tools');
+const {Post, Dislike, Like, Notification} = require('./models')
 
-const Notification = require('./models/notification');
-const Post = require('./models/post');
-const Like = require('./models/like');
-const Dislike = require('./models/dislike');
 
 const pubSub = new PubSub();
 

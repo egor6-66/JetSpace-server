@@ -1,12 +1,12 @@
 const MongooseToken = require('./token/mongoose-token-models');
-const MongooseUser = require('./user/mongoose-user-models');
+const MongooseUser = require('./user/mongoose-user-model');
 const MongoosePost = require('./post/mongoose-post-models');
 const MongooseNotification = require('./notification/mongoose-notification-models');
 const MongooseImage = require('./image/mongoose-image-models');
 const MongooseLike = require('./like/mongoose-like-model');
 const MongooseDislike = require('./dislike/mongoose-dislike-model')
 
-const GraphQlUser = require('./user/graphql-user-models');
+const GraphQlUser = require('./user/graphql-user-model');
 const GraphQlPost = require('./post/graphql-post-models');
 const GraphQlNotification = require('./notification/graphql-notification-models');
 const GraphQlImages = require('./image/graphql-image-models');
