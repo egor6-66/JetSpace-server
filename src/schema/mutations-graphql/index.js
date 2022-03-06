@@ -5,6 +5,7 @@ const editStatus = require('./user/editStatus');
 const addPost = require('./post/add-post');
 const addLikePost = require('./like/add-like-post');
 const addDislikePost = require('./dislike/add-dislike-post');
+const addMessage = require('./message/add-message');
 
 const Mutation = new GraphQLObjectType({
     name: 'Mutation',
@@ -14,6 +15,7 @@ const Mutation = new GraphQLObjectType({
         addPost,
         addLikePost,
         addDislikePost,
+        addMessage,
     }
 })
 

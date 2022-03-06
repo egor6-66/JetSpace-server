@@ -1,31 +1,27 @@
+const {MongooseModels} = require('../schema/models');
+const {MailService, TokenService,} = require('../services')
+const ApiError = require('../exceptions/api-error');
+const UserDto = require('../dtos/user-dto');
 const bcrypt = require("bcrypt");
 const {v4: uuidv4} = require('uuid');
-
-const UserDto = require('../dtos/user-dto');
-const ApiError = require('../exceptions/api-error');
-const {MongooseModels} = require('../schema/models');
-const {
-    MailService,
-    TokenService,
-} = require('../services')
 
 
 class AuthService {
     async registration(name, email, password) {
-        const candidate = await MongooseModels.Users.findOne({email})
+        const candidate = await MongooseModels.User.findOne({email})
         if (candidate) {
             throw ApiError.BadRequest(`Пользователь ${email} уже зарегистрирован!`)
         } else {
             const hashPassword = await bcrypt.hash(password, 3)
             const activationLink = uuidv4()
-            const user = await MongooseModels.Users.create({
+            const user = await MongooseModels.User.create({
                 name,
                 email,
                 password: hashPassword,
                 activationLink
             })
             await MailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
-            const userDto = new UserDto(user)
+            const userDto = UserDto(user)
             const tokens = TokenService.generateTokens({...userDto})
             await TokenService.saveToken(userDto.id, tokens.refreshToken)
             return {...tokens, user: userDto}
@@ -33,7 +29,7 @@ class AuthService {
     }
 
     async activate(activationLink) {
-        const user = await MongooseModels.Users.findOne({activationLink})
+        const user = await MongooseModels.User.findOne({activationLink})
         if (user) {
             user.isActivated = true
             user.isOnline = true
@@ -45,11 +41,12 @@ class AuthService {
     }
 
     async login(email, password) {
-        const user = await MongooseModels.Users.findOne({email})
+        const user = await MongooseModels.User.findOne({email})
         if (user) {
             const isPassEquals = await bcrypt.compare(password, user.password)
             if (isPassEquals) {
-                const userDto = new UserDto(user)
+                // const userDto = new UserDto(user)
+                const userDto = UserDto(user)
                 const tokens = TokenService.generateTokens({...userDto})
                 await TokenService.saveToken(userDto.id, tokens.refreshToken)
                 user.isOnline = true
@@ -64,7 +61,7 @@ class AuthService {
     }
 
     async logout(refreshToken, userId) {
-        const user = await MongooseModels.Users.findById(userId)
+        const user = await MongooseModels.User.findById(userId)
         user.isOnline = false
         await user.save()
         await TokenService.removeToken(refreshToken)
@@ -76,7 +73,7 @@ class AuthService {
             const tokenFromDB = await TokenService.findToken(refreshToken)
             if (userData || tokenFromDB) {
                 const user = await MongooseModels.User.findById(userData.id)
-                const userDto = new UserDto(user)
+                const userDto = UserDto(user)
                 const tokens = TokenService.generateTokens({...userDto})
                 await TokenService.saveToken(userDto.id, tokens.refreshToken)
                 return {...tokens, user: {...userDto}}

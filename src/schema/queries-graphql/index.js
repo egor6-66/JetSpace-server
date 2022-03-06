@@ -6,6 +6,7 @@ const getAllUserImg = require('./user/get-all-user-img');
 const getAllLikes = require('./like/get-all-likes');
 const getUserPosts = require('./post/get-user-posts');
 const getNotifications = require('./notification/get-notification');
+const getMessages = require('./message/get-messages');
 
 const Query = new GraphQLObjectType({
     name: 'Query',
@@ -14,6 +15,7 @@ const Query = new GraphQLObjectType({
         getUser,
         getAllUserImg,
         // getAllLikes,
+        getMessages,
         getUserPosts,
         getNotifications,
     }
