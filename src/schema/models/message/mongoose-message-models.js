@@ -1,13 +1,12 @@
-// const {
-//     Schema,
-//     model,
-//     ObjectId
-// } = require('mongoose');
-//
-//
-// const MessageSchema = new Schema({
-//     id: {type: ObjectId, ref: 'User'},
-//     massages: {type: Array, default: []},
-// });
-//
-// module.exports = model('Message', MessageSchema);
+const {Schema, model} = require('mongoose');
+
+
+const MessageSchema = new Schema({
+    userId: {type: String},
+    userName: {type: String},
+    userLastName: {type: String},
+    userAvatar: {type: String},
+    messages: {type: Array}
+});
+
+module.exports = model('Message', MessageSchema);
