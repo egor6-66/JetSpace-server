@@ -14,6 +14,7 @@ const GraphQlImages = require('./image/graphql-image-models');
 const GraphQlLike = require('./like/graphql-like-models');
 const GraphQlDislike = require('./dislike/graphql-dislike-models');
 const GraphQlMessage = require('./message/graphql-message-models');
+const GraphQlDialogs = require('./message/graphql-dialogs-model');
 
 const ParamsPost = require('./post/params-post-model');
 const ParamsLike = require('./like/params-like-model');
@@ -39,6 +40,7 @@ const GraphQlModels = {
     Like: GraphQlLike,
     Dislike: GraphQlDislike,
     Message: GraphQlMessage,
+    Dialogs: GraphQlDialogs,
 }
 
 const ParamsModels = {
