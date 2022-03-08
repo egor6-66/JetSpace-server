@@ -1,7 +1,7 @@
 const gql = require('graphql-tag');
 const {PubSub} = require('graphql-subscriptions');
 const {makeExecutableSchema} = require('graphql-tools');
-const {Post, Dislike, Like, Notification} = require('./models')
+const {Post, Dislike, Like, Notification, Message} = require('./models')
 
 
 const pubSub = new PubSub();
@@ -11,10 +11,12 @@ const typeDefs = gql`
     ${Like}
     ${Post}
     ${Notification}
+    ${Message}
 
     type Query{
         getUserPosts: [Post]
         getNotification: [Notification]
+        getMessages: [Message]
     }
 
     type Subscription{
@@ -22,6 +24,7 @@ const typeDefs = gql`
         newLike: Like
         newDislike: Dislike
         newNotification: Notification
+        newMessage: Message
     }
 `
 
@@ -38,7 +41,10 @@ const resolvers = {
         },
         newNotification: {
             subscribe: () => pubSub.asyncIterator('newNotification')
-        }
+        },
+        newMessage: {
+            subscribe: () => pubSub.asyncIterator('newMessage')
+        },
     }
 }
 

@@ -2,7 +2,7 @@ const {v4: uuidv4} = require("uuid");
 const moment = require("moment");
 
 
-const messageParams = (args) => {
+const messageParams = (args, userData) => {
     const dateNow = moment().locale('ru').format('llll')
 
     return {

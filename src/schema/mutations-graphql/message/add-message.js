@@ -33,8 +33,9 @@ const addMessage = {
             await userMessages.markModified('messages');
             await userMessages.save()
             await myMessages.save()
+            await pubSub.publish('newMessage', {newMessage: newMessage})
         } else {
-            await MongooseModels.Message.create({
+            const messages = await MongooseModels.Message.create({
                 userId: args.myId,
                 messages: [{userId: args.userId, messages: [newMessage]}]
             })
@@ -42,6 +43,8 @@ const addMessage = {
                 userId: args.userId,
                 messages: [{userId: args.myId, messages: [newMessage]}]
             })
+            await pubSub.publish('newMessage', {newMessage: newMessage})
+            return messages
         }
         const messages = myMessages.messages.find(message => message.userId === args.userId)
         return MessageDTO(messages, userData)
