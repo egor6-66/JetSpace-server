@@ -3,7 +3,7 @@ const TokenService = require('../services/token-service');
 
 
 class FileController {
-    async imgUpload(req, res, next) {
+    async fileUpload(req, res, next) {
         try {
             const userData = await TokenService.tokenDecode(req.headers.authorization)
             const {id, name, lastName} = userData

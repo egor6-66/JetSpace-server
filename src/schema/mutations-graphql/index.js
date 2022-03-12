@@ -6,6 +6,9 @@ const addPost = require('./post/add-post');
 const addLikePost = require('./like/add-like-post');
 const addDislikePost = require('./dislike/add-dislike-post');
 const addMessage = require('./message/add-message');
+const addVideo = require('./video/add-video');
+const addSound = require('./sound/add-sound');
+
 
 const Mutation = new GraphQLObjectType({
     name: 'Mutation',
@@ -16,6 +19,8 @@ const Mutation = new GraphQLObjectType({
         addLikePost,
         addDislikePost,
         addMessage,
+        addVideo,
+        addSound,
     }
 })
 

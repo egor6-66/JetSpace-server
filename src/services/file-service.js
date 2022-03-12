@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 const {v4: uuidv4} = require("uuid");
-const {MongooseModels} = require('../schema/models');
+const {MongooseModels, ParamsModels} = require('../schema/models');
 
 
 const s3bucket = new AWS.S3({
@@ -9,17 +9,8 @@ const s3bucket = new AWS.S3({
     Bucket: process.env.BUCKET_NAME
 });
 
-const imageParams = (parentId, path) => {
-    return {
-        parentId: parentId,
-        id: uuidv4(),
-        path: path,
-    }
-}
-
 const deleteBeforeAdd = async (filePath) => {
     const path = filePath.split('/').slice(-3).join('/')
-    console.log(path)
     const awsParams = {
         Bucket: process.env.BUCKET_NAME,
         Key: path
@@ -29,7 +20,6 @@ const deleteBeforeAdd = async (filePath) => {
         err && console.log(err)
         data && console.log(data)
     })
-
 }
 
 const getFileKey = (key, userId, file) => {
@@ -60,15 +50,14 @@ class FileService {
             if (`${key}` === 'avatar') {
                 const imagesData = await MongooseModels.Image.findOne({userId: userId})
                 if (imagesData) {
-                    imagesData.images.unshift(imageParams(imagesData._id, `${process.env.DOMAIN_NAME}/${data.key}`))
+                    imagesData.images.unshift(ParamsModels.Image(imagesData._id, `${process.env.DOMAIN_NAME}/${data.Key}`))
                     await imagesData.save()
                 } else {
                     const newImagesData = await MongooseModels.Image.create({userId: userId})
-                    newImagesData.images.unshift(imageParams(newImagesData._id, `${process.env.DOMAIN_NAME}/${data.key}`))
+                    newImagesData.images.unshift(ParamsModels.Image(newImagesData._id, `${process.env.DOMAIN_NAME}/${data.Key}`))
                     await newImagesData.save()
                 }
             }
-            userData[key] = `${process.env.DOMAIN_NAME}/${data.key}`
             await userData.save()
         });
     }

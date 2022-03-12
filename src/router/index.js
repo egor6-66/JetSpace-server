@@ -14,7 +14,7 @@ router.post('/registration',
 );
 router.post('/login', authController.login);
 router.post('/logout', authController.logout);
-router.post('/imgUpload', fileController.imgUpload);
+router.post('/fileUpload', fileController.fileUpload);
 router.get('/activate/:link', authController.activate);
 router.get('/refresh', authController.refresh);
 

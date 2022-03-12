@@ -6,6 +6,8 @@ const MongooseImage = require('./image/mongoose-image-models');
 const MongooseLike = require('./like/mongoose-like-model');
 const MongooseDislike = require('./dislike/mongoose-dislike-model');
 const MongooseMessage = require('./message/mongoose-message-models');
+const MongooseSound = require('./sound/mongoose-sound-models');
+const MongooseVideo = require('./video/mongoose-video-models');
 
 const GraphQlUser = require('./user/graphql-user-model');
 const GraphQlPost = require('./post/graphql-post-models');
@@ -15,11 +17,16 @@ const GraphQlLike = require('./like/graphql-like-models');
 const GraphQlDislike = require('./dislike/graphql-dislike-models');
 const GraphQlMessage = require('./message/graphql-message-models');
 const GraphQlDialogs = require('./message/graphql-dialogs-model');
+const GraphQlSound = require('./sound/graphql-sound-models');
+const GraphQlVideo = require('./video/graphql-video-models');
 
 const ParamsPost = require('./post/params-post-model');
 const ParamsLike = require('./like/params-like-model');
 const ParamsDislike = require('./dislike/params-dislike-model');
 const ParamsMessage = require('./message/params-message-model');
+const ParamsImage = require('./image/params-image-model');
+const ParamsSound = require('./sound/params-sound-model');
+const ParamsVideo = require('./video/params-video-model');
 
 const MongooseModels = {
     Token: MongooseToken,
@@ -30,6 +37,8 @@ const MongooseModels = {
     Like: MongooseLike,
     Dislike: MongooseDislike,
     Message: MongooseMessage,
+    Sound: MongooseSound,
+    Video: MongooseVideo,
 }
 
 const GraphQlModels = {
@@ -41,6 +50,8 @@ const GraphQlModels = {
     Dislike: GraphQlDislike,
     Message: GraphQlMessage,
     Dialogs: GraphQlDialogs,
+    Sound: GraphQlSound,
+    Video: GraphQlVideo,
 }
 
 const ParamsModels = {
@@ -48,6 +59,9 @@ const ParamsModels = {
     Like: ParamsLike,
     Dislike: ParamsDislike,
     Message: ParamsMessage,
+    Image: ParamsImage,
+    Sound: ParamsSound,
+    Video: ParamsVideo,
 }
 
 module.exports = {
