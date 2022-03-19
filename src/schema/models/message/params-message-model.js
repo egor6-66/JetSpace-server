@@ -9,6 +9,7 @@ const messageParams = (args, userData) => {
         id: uuidv4(),
         userId: args.myId,
         date: dateNow,
+        type: args.type,
         content: args.content,
     }
 }

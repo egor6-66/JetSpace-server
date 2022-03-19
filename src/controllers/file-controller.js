@@ -6,9 +6,12 @@ class FileController {
     async fileUpload(req, res, next) {
         try {
             const userData = await TokenService.tokenDecode(req.headers.authorization)
-            const {id, name, lastName} = userData
-            await FileService.uploadFile(req.files, id, name, lastName)
-            return res.json('sucess')
+            const {id} = userData
+            const response = await FileService.uploadFile(req.files, id, req.body.userId)
+            const data = {
+                path: `${process.env.S3_PREFIX_PATH}/${response.service.config.params.Key}`
+            }
+            return res.json(data)
         } catch (e) {
             next(e)
         }
