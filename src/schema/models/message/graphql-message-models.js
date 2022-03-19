@@ -7,6 +7,7 @@ const MessageType = new GraphQLObjectType({
         id: {type: GraphQLID},
         userId: {type: GraphQLID},
         date: {type: GraphQLString},
+        type: {type: GraphQLString},
         content: {type: GraphQLString},
     })
 })

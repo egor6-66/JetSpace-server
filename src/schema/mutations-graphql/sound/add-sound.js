@@ -11,7 +11,6 @@ const addSound = {
     },
 
     async resolve(parent, args) {
-        console.log(args)
         const soundsData = await MongooseModels.Sound.findOne({userId: args.id})
         const newSound = ParamsModels.Sound(args)
 

@@ -7,6 +7,7 @@ const Message = gql`
         id: String
         userId: String
         date: String
+        type: String
         content: String
     }
 `

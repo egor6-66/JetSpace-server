@@ -7,7 +7,6 @@ const getAllLikes = {
     args: {id: {type: GraphQLID}},
     async resolve(parent, args) {
         const allLikes = await MongooseAllLikes.findOne({userId: args.id})
-        console.log('allLikes.likes',allLikes.likes)
         return allLikes.likes
     }
 };

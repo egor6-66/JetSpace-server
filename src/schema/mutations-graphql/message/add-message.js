@@ -9,6 +9,7 @@ const addMessage = {
     args: {
         myId: {type: GraphQLID},
         userId: {type: GraphQLID},
+        type: {type: GraphQLString},
         content: {type: GraphQLString},
     },
 
