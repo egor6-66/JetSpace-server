@@ -11,7 +11,7 @@ const UserSchema = new Schema({
     lastName: {type: String},
     status: {type: String, default: ''},
     age: {type: Number},
-    avatar: {type: String, default: `${process.env.DEFAULT_ASSETS}/noAvatar.jpeg`},
+    avatar: {type: String, default: `${process.env.DEFAULT_ASSETS}/no-avatar.jpeg`},
     headerAvatar: {type: String},
     likeCounter: {type: String, default: '0'},
     dislikeCounter: {type: String, default: '0'},
