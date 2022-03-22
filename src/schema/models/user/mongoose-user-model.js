@@ -15,6 +15,8 @@ const UserSchema = new Schema({
     headerAvatar: {type: String},
     likeCounter: {type: String, default: '0'},
     dislikeCounter: {type: String, default: '0'},
+    subscriptions: {type: Array, default: []},
+    subscribers: {type: Array, default: []},
     isOnline: {type: Boolean},
     theme: {type: String, default: 'light'},
     instagram: {type: String, default: ''},
