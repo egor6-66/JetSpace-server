@@ -1,4 +1,4 @@
-const {GraphQLObjectType, GraphQLList, GraphQLBoolean, GraphQLID, GraphQLString,} = require("graphql");
+const {GraphQLObjectType, GraphQLBoolean, GraphQLID, GraphQLString, GraphQLList,} = require("graphql");
 
 
 const UserType = new GraphQLObjectType({
@@ -15,6 +15,8 @@ const UserType = new GraphQLObjectType({
         headerAvatar: {type: GraphQLString},
         likeCounter: {type: GraphQLString},
         dislikeCounter: {type: GraphQLString},
+        subscriptions: {type:new GraphQLList(GraphQLString)},
+        subscribers: {type:new GraphQLList(GraphQLString)},
         theme: {type: GraphQLString},
         instagram: {type: GraphQLString},
         facebook: {type: GraphQLString},

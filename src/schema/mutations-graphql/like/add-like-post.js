@@ -14,13 +14,14 @@ const addLikePost = {
 
     async resolve(parent, args) {
         const userData = await MongooseModels.User.findById(args.userId)
+        const ownerData = await MongooseModels.User.findById(args.ownerId)
         const postsData = await MongooseModels.Post.findOne({userId: args.ownerId})
         const likesData = await MongooseModels.Like.findOne({userId: args.ownerId})
         const newLike = ParamsModels.Like(userData, args)
 
         if (likesData) {
             const isLikeIndex = likesData.likes.findIndex(like => like.postId === args.postId && like.userId === args.userId)
-            if(isLikeIndex === -1){
+            if (isLikeIndex === -1) {
                 likesData.likes.unshift(newLike)
                 await likesData.save()
                 await pubSub.publish('newLike', {newLike: newLike})
@@ -32,7 +33,9 @@ const addLikePost = {
             })
             await pubSub.publish('newLike', {newLike: newLike})
         }
-
+        ownerData.likeCounter = +ownerData.likeCounter + 1
+        console.log(ownerData)
+        await ownerData.save()
         await NotificationService.addNotification(args.ownerId, args.userId, newLike, 'addLikePost')
         return postsData.posts.map(post => post.id === args.postId)
     }
