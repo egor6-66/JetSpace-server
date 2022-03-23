@@ -5,6 +5,8 @@ const UserDto = (model) => {
         name: model.name,
         lastName: model.lastName,
         avatar: model.avatar,
+        likeCounter: model.likeCounter,
+        dislikeCounter: model.dislikeCounter,
         subscriptions:model.subscriptions,
         subscribers: model.subscribers,
         theme: model.theme,

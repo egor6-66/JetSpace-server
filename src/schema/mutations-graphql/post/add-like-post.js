@@ -16,28 +16,22 @@ const addLikePost = {
         const userData = await MongooseModels.User.findById(args.userId)
         const ownerData = await MongooseModels.User.findById(args.ownerId)
         const postsData = await MongooseModels.Post.findOne({userId: args.ownerId})
-        const dislikesData = await MongooseModels.Dislike.findOne({userId: args.ownerId})
-        const likesData = await MongooseModels.Like.findOne({userId: args.ownerId})
         const newLike = ParamsModels.Like(userData, args)
+        const updatePost = postsData.posts.find(post => post.id === args.postId)
 
-        if (likesData) {
-            const isLikeIndex = likesData.likes.findIndex(like => like.postId === args.postId && like.userId === args.userId)
-            if (isLikeIndex === -1) {
-                likesData.likes.unshift(newLike)
-                await likesData.save()
-                await pubSub.publish('newLike', {newLike: newLike})
-            }
-        } else {
-            await MongooseModels.Like.create({
-                userId: args.ownerId,
-                likes: [newLike],
-            })
-            await pubSub.publish('newLike', {newLike: newLike})
-        }
+        const isLike = updatePost.likes.find(like => like.userId === args.userId || like.userId === args.ownerId)
+        updatePost.dislikes.length && updatePost.dislikes.forEach((dislike, index) =>
+            dislike.userId === args.userId && updatePost.dislikes.splice(index, 1))
+
+        !isLike && updatePost.likes.unshift(newLike)
+        !isLike && await pubSub.publish('newLike', {newLike: newLike})
+
+        postsData.markModified('posts')
         ownerData.likeCounter = +ownerData.likeCounter + 1
-        console.log(ownerData)
+        ownerData.dislikeCounter = +ownerData.likeCounter - 1
+        await postsData.save()
         await ownerData.save()
-        await NotificationService.addNotification(args.ownerId, args.userId, newLike, 'addLikePost')
+        // await NotificationService.addNotification(args.ownerId, args.userId, newLike, 'addLikePost')
         return postsData.posts.map(post => post.id === args.postId)
     }
 }
