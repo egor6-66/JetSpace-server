@@ -22,7 +22,7 @@ const addPost = {
                 posts: [newPost]
             })
         }
-        await pubSub.publish('newPost', {newPost: newPost})
+        await  pubSub.publish('newPost', {newPost: newPost})
         return response
     }
 }
