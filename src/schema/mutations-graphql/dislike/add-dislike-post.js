@@ -16,6 +16,7 @@ const addDislikePost = {
 
     async resolve(parent, args) {
         const userData = await MongooseModels.User.findById(args.userId)
+        const ownerData = await MongooseModels.User.findById(args.ownerId)
         const postsData = await MongooseModels.Post.findOne({userId: args.ownerId})
         const dislikesData = await MongooseModels.Dislike.findOne({userId: args.ownerId})
         const likesData = await MongooseModels.Like.findOne({userId: args.ownerId})
