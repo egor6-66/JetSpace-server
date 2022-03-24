@@ -18,21 +18,23 @@ const addLikePost = {
         const postsData = await MongooseModels.Post.findOne({userId: args.ownerId})
         const newLike = ParamsModels.Like(userData, args)
         const updatePost = postsData.posts.find(post => post.id === args.postId)
-
-        const isLike = updatePost.likes.find(like => like.userId === args.userId || like.userId === args.ownerId)
-        updatePost.dislikes.length && updatePost.dislikes.forEach((dislike, index) =>
-            dislike.userId === args.userId && updatePost.dislikes.splice(index, 1))
-
-        !isLike && updatePost.likes.unshift(newLike)
-        !isLike && await pubSub.publish('newLike', {newLike: newLike})
-
+        const isLike = updatePost.likes.find(like => like.userId === args.userId)
+        updatePost.dislikes.length && updatePost.dislikes.forEach((dislike, index) => {
+            if (dislike.userId === args.userId) {
+                updatePost.dislikes.splice(index, 1)
+                ownerData.dislikeCounter = +ownerData.likeCounter - 1
+            }
+        })
+        if (!isLike) {
+            updatePost.likes.unshift(newLike)
+            ownerData.likeCounter = +ownerData.likeCounter + 1
+            await pubSub.publish('newLike', {newLike: newLike})
+        }
         postsData.markModified('posts')
-        ownerData.likeCounter = +ownerData.likeCounter + 1
-        ownerData.dislikeCounter = +ownerData.likeCounter - 1
         await postsData.save()
         await ownerData.save()
         // await NotificationService.addNotification(args.ownerId, args.userId, newLike, 'addLikePost')
-        return postsData.posts.map(post => post.id === args.postId)
+        return postsData
     }
 }
 

@@ -32,7 +32,6 @@ const addMessage = {
         }
         if (myMessages) {
             const found = myMessages.messages.find(message => message.userId === args.userId)
-            console.log(found)
             found ? found.messages.push(newMessage) : myMessages.messages.unshift({userId: args.userId, messages: [newMessage]})
             await myMessages.markModified('messages');
             await myMessages.save()

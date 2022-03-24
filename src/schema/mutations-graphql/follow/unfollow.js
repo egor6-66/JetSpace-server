@@ -16,7 +16,6 @@ const unfollow = {
 
         const indexInMyData = myData.subscriptions.indexOf(args.userId)
         myData.subscriptions.splice(indexInMyData, 1)
-        console.log(indexInMyData)
         const indexInUserData = userData.subscriptions.indexOf(args.myId)
         userData.subscribers.splice(indexInUserData, 1)
 

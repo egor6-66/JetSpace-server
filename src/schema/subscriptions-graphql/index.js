@@ -40,8 +40,6 @@ const resolvers = {
             subscribe: withFilter(
                 () => pubSub.asyncIterator('newPost'),
                 (payload, variables) => {
-                    console.log('payload',payload)
-                    console.log('variables',variables)
                     return (payload.newPost.userId === variables.id)
                 }
             )
