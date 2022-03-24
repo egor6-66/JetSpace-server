@@ -4,18 +4,7 @@ const UserDto = (model) => {
         email: model.email,
         name: model.name,
         lastName: model.lastName,
-        avatar: model.avatar,
-        subscriptions:model.subscriptions,
-        subscribers: model.subscribers,
         theme: model.theme,
-        instagram: model.instagram,
-        facebook: model.facebook,
-        twitter: model.twitter,
-        spotify: model.spotify,
-        telegram: model.telegram,
-        github: model.github,
-        soundCloud: model.soundCloud,
-        youTube: model.youTube,
         isActivated: model.isActivated,
     }
 }

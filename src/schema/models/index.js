@@ -3,8 +3,6 @@ const MongooseUser = require('./user/mongoose-user-model');
 const MongoosePost = require('./post/mongoose-post-models');
 const MongooseNotification = require('./notification/mongoose-notification-models');
 const MongooseImage = require('./image/mongoose-image-models');
-const MongooseLike = require('./like/mongoose-like-model');
-const MongooseDislike = require('./dislike/mongoose-dislike-model');
 const MongooseMessage = require('./message/mongoose-message-models');
 const MongooseSound = require('./sound/mongoose-sound-models');
 const MongooseVideo = require('./video/mongoose-video-models');
@@ -34,8 +32,6 @@ const MongooseModels = {
     Post:MongoosePost,
     Notification:MongooseNotification,
     Image:MongooseImage,
-    Like: MongooseLike,
-    Dislike: MongooseDislike,
     Message: MongooseMessage,
     Sound: MongooseSound,
     Video: MongooseVideo,
