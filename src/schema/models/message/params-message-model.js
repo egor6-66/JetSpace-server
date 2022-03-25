@@ -3,7 +3,8 @@ const moment = require("moment");
 
 
 const messageParams = (args, userData) => {
-    const dateNow = moment().locale('ru').format('llll')
+
+    const dateNow = moment().unix()
 
     return {
         id: uuidv4(),

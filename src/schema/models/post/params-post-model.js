@@ -3,7 +3,8 @@ const moment = require("moment");
 
 
 const postParams = (args) => {
-    const dateNow = moment().locale('ru').format('llll')
+
+    const dateNow = moment().unix()
 
     return {
         id: uuidv4(),
@@ -12,6 +13,7 @@ const postParams = (args) => {
         content: args.content,
         likes: [],
         dislikes: [],
+        comments: []
     }
 }
 

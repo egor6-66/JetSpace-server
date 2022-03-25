@@ -17,6 +17,7 @@ const GraphQlMessage = require('./message/graphql-message-models');
 const GraphQlDialogs = require('./message/graphql-dialogs-model');
 const GraphQlSound = require('./sound/graphql-sound-models');
 const GraphQlVideo = require('./video/graphql-video-models');
+const GraphQlComment = require('./comment/graphql-comment-models')
 
 const ParamsPost = require('./post/params-post-model');
 const ParamsLike = require('./like/params-like-model');
@@ -25,6 +26,7 @@ const ParamsMessage = require('./message/params-message-model');
 const ParamsImage = require('./image/params-image-model');
 const ParamsSound = require('./sound/params-sound-model');
 const ParamsVideo = require('./video/params-video-model');
+const ParamsComment = require('./comment/params-comment-model');
 
 const MongooseModels = {
     Token: MongooseToken,
@@ -48,6 +50,7 @@ const GraphQlModels = {
     Dialogs: GraphQlDialogs,
     Sound: GraphQlSound,
     Video: GraphQlVideo,
+    Comment: GraphQlComment
 }
 
 const ParamsModels = {
@@ -58,6 +61,7 @@ const ParamsModels = {
     Image: ParamsImage,
     Sound: ParamsSound,
     Video: ParamsVideo,
+    Comment: ParamsComment
 }
 
 module.exports = {

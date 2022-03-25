@@ -10,6 +10,7 @@ const Post = gql`
         content: String
         likes: [Like]
         dislikes: [Dislike]
+        comments: [Comment]
     }
 `
 
