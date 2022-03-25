@@ -16,7 +16,7 @@ const addDislikePost = {
         const userData = await MongooseModels.User.findById(args.userId)
         const ownerData = await MongooseModels.User.findById(args.ownerId)
         const postsData = await MongooseModels.Post.findOne({userId: args.ownerId})
-        const newDislike = ParamsModels.Dislike(userData, args)
+        const newDislike = ParamsModels.Dislike(args)
         const updatePost = postsData.posts.find(post => post.id === args.postId)
         const isDislike = updatePost.dislikes.find(dislike => dislike.userId === args.userId)
         updatePost.likes.length && updatePost.likes.forEach((like, index) => {

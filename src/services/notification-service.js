@@ -25,7 +25,7 @@ class NotificationService {
         const content = await validators.getContent(ownerId, payload)
 
         if (ownerId !== userId) {
-            const dateNow = moment().locale('ru').format('llll')
+            const dateNow = moment().unix()
             if (notificationsData) {
                 notificationsData.notifications.unshift(
                     notificationParams(notificationsData._id, dateNow, title, content, userId, payload))

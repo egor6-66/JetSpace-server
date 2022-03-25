@@ -12,9 +12,6 @@ const DislikeType = new GraphQLObjectType({
         date: {type: GraphQLString},
         postId: {type: GraphQLID},
         userId: {type: GraphQLID},
-        userName: {type: GraphQLString},
-        userLastName: {type: GraphQLString},
-        userAvatar: {type: GraphQLString},
     })
 })
 

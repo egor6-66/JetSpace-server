@@ -2,15 +2,15 @@ const {v4: uuidv4} = require("uuid");
 const moment = require("moment");
 
 
-const paramsDislikeModel = (userData, args) => {
+const paramsDislikeModel = (args) => {
+
+    const dateNow = moment().unix()
+
     return {
         id: uuidv4(),
-        date: moment().locale('ru').format('llll'),
+        date: dateNow,
         postId: args.postId,
         userId: args.userId,
-        userName: userData.name,
-        userLastName: userData.lastName,
-        userAvatar: userData.avatar,
     }
 }
 
