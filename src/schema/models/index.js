@@ -12,7 +12,9 @@ const GraphQlPost = require('./post/graphql-post-models');
 const GraphQlNotification = require('./notification/graphql-notification-models');
 const GraphQlImages = require('./image/graphql-image-models');
 const GraphQlLike = require('./like/graphql-like-models');
+const GraphQlAllLikes = require('./like/graphql-all-like-models');
 const GraphQlDislike = require('./dislike/graphql-dislike-models');
+const GraphQlAllDislikes = require('./dislike/graphql-all-dislike-models');
 const GraphQlMessage = require('./message/graphql-message-models');
 const GraphQlDialogs = require('./message/graphql-dialogs-model');
 const GraphQlSound = require('./sound/graphql-sound-models');
@@ -45,7 +47,9 @@ const GraphQlModels = {
     Notification:GraphQlNotification,
     Image:GraphQlImages,
     Like: GraphQlLike,
+    AllLikes: GraphQlAllLikes,
     Dislike: GraphQlDislike,
+    AllDislikes: GraphQlAllDislikes,
     Message: GraphQlMessage,
     Dialogs: GraphQlDialogs,
     Sound: GraphQlSound,
