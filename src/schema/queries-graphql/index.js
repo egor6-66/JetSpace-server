@@ -4,6 +4,7 @@ const getAllUsers = require('./user/get-all-users');
 const getUser = require('./user/get-users');
 const getAllUserImg = require('./image/get-all-user-img');
 const getAllLikes = require('./like/get-all-likes');
+const getAllDislikes = require('./dislike/get-all-dislikes')
 const getUserPosts = require('./post/get-user-posts');
 const getNotifications = require('./notification/get-notification');
 const getMessages = require('./message/get-messages');
@@ -19,12 +20,14 @@ const Query = new GraphQLObjectType({
         getUser,
         getAllUserImg,
         getAllDialogs,
-        // getAllLikes,
+        getAllLikes,
+        getAllDislikes,
         getMessages,
         getUserPosts,
         getNotifications,
         getAllUserSounds,
         getAllUserVideos,
+
     }
 })
 
