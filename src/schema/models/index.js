@@ -20,6 +20,7 @@ const GraphQlDialogs = require('./message/graphql-dialogs-model');
 const GraphQlSound = require('./sound/graphql-sound-models');
 const GraphQlVideo = require('./video/graphql-video-models');
 const GraphQlComment = require('./comment/graphql-comment-models')
+const GraphQlFollowers = require('./followers/graphql-followers-models')
 
 const ParamsPost = require('./post/params-post-model');
 const ParamsLike = require('./like/params-like-model');
@@ -54,7 +55,8 @@ const GraphQlModels = {
     Dialogs: GraphQlDialogs,
     Sound: GraphQlSound,
     Video: GraphQlVideo,
-    Comment: GraphQlComment
+    Comment: GraphQlComment,
+    Followers: GraphQlFollowers,
 }
 
 const ParamsModels = {

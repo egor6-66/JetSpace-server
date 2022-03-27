@@ -11,7 +11,8 @@ const getMessages = require('./message/get-messages');
 const getAllDialogs = require('./message/get-all-dialogs');
 const getAllUserSounds = require('./sound/get-all-user-sounds');
 const getAllUserVideos = require('./video/get-all-user-videos');
-
+const getAllSubscribers = require('./followers/get-allsubscribers');
+const getAllSubscriptions = require('./followers/get-allsubscriptions');
 
 const Query = new GraphQLObjectType({
     name: 'Query',
@@ -27,7 +28,8 @@ const Query = new GraphQLObjectType({
         getNotifications,
         getAllUserSounds,
         getAllUserVideos,
-
+        getAllSubscribers,
+        getAllSubscriptions,
     }
 })
 
