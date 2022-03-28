@@ -12,9 +12,9 @@ const getAllSubscribers = {
         console.log(userData)
         if(userData.subscribers.length){
             let subscribers = []
-            for await (let userid of userData.subscribers){
-                const user = await MongooseModels.User.findById(userid)
-                subscribers.unshift(FollowersDTO({}, user))
+            for await (let subscriber of userData.subscribers){
+                const user = await MongooseModels.User.findById(subscriber.userId)
+                subscribers.unshift(FollowersDTO(subscriber, user))
             }
             return subscribers
         }

@@ -6,6 +6,7 @@ const FollowersDto = (followerModel, userModel) => {
     followerModel.userName = userModel.name
     followerModel.userLastName = userModel.lastName
     followerModel.userAvatar = userModel.avatar
+    followerModel.userAvatar = userModel.avatar
     return followerModel
 
 }

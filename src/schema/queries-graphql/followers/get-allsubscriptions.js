@@ -11,9 +11,9 @@ const getAllSubscriptions = {
         const userData = await MongooseModels.User.findById(args.id)
         if(userData.subscriptions.length){
             let subscriptions = []
-            for await (let userid of userData.subscriptions){
-                const user = await MongooseModels.User.findById(userid)
-                subscriptions.unshift(FollowersDTO({}, user))
+            for await (let subscription of userData.subscriptions){
+                const user = await MongooseModels.User.findById(subscription.userId)
+                subscriptions.unshift(FollowersDTO(subscription, user))
             }
             return subscriptions
         }

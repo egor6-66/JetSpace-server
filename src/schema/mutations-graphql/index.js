@@ -9,8 +9,10 @@ const addDislikePost = require('./post/add-dislike-post');
 const addMessage = require('./message/add-message');
 const addVideo = require('./video/add-video');
 const addSound = require('./sound/add-sound');
+const removeSound = require('./sound/remove-sound');
 const follow = require('./follow/follow');
 const unfollow = require('./follow/unfollow');
+
 
 
 const Mutation = new GraphQLObjectType({
@@ -25,6 +27,7 @@ const Mutation = new GraphQLObjectType({
         addMessage,
         addVideo,
         addSound,
+        removeSound,
         follow,
         unfollow,
     }
