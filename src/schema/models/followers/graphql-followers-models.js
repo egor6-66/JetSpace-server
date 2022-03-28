@@ -13,6 +13,7 @@ const followersType = new GraphQLObjectType({
         userName: {type: GraphQLString},
         userLastName: {type: GraphQLString},
         userAvatar: {type: GraphQLString},
+        dateSub: {type: GraphQLString},
     })
 })
 

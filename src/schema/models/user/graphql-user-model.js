@@ -1,5 +1,16 @@
 const {GraphQLObjectType, GraphQLBoolean, GraphQLID, GraphQLString, GraphQLList,} = require("graphql");
+const GraphQlLike = require("../like/graphql-like-models");
+const GraphQlDislike = require("../dislike/graphql-dislike-models");
+const GraphQlComment = require("../comment/graphql-comment-models");
 
+
+const PostType = new GraphQLObjectType({
+    name: 'Follow',
+    fields: () => ({
+        userId: {type: GraphQLID},
+        dateSub: {type: GraphQLString},
+    })
+})
 
 const UserType = new GraphQLObjectType({
     name: 'User',
@@ -15,8 +26,8 @@ const UserType = new GraphQLObjectType({
         headerAvatar: {type: GraphQLString},
         likeCounter: {type: GraphQLString},
         dislikeCounter: {type: GraphQLString},
-        subscriptions: {type:new GraphQLList(GraphQLString)},
-        subscribers: {type:new GraphQLList(GraphQLString)},
+        subscriptions: {type:new GraphQLList(PostType)},
+        subscribers: {type:new GraphQLList(PostType)},
         theme: {type: GraphQLString},
         instagram: {type: GraphQLString},
         facebook: {type: GraphQLString},
