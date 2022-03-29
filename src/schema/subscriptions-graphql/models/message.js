@@ -6,6 +6,7 @@ const Message = gql`
         parentId: String
         id: String
         userId: String
+        recipientId: String
         date: String
         type: String
         content: String
