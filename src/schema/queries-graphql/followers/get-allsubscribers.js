@@ -9,7 +9,6 @@ const getAllSubscribers = {
     args: {id: {type: GraphQLID}},
     async resolve(parent, args) {
         const userData = await MongooseModels.User.findById(args.id)
-        console.log(userData)
         if(userData.subscribers.length){
             let subscribers = []
             for await (let subscriber of userData.subscribers){

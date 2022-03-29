@@ -24,7 +24,7 @@ const typeDefs = gql`
         newPost(id: String): Post
         newLike: Like
         newDislike: Dislike
-        newNotification: Notification
+        newNotification(myId: ID): Notification
         newMessage(userId: String, myId: String): Message
         newComment: Comment
     }
@@ -50,7 +50,12 @@ const resolvers = {
             )
         },
         newNotification: {
-            subscribe: () => pubSub.asyncIterator('newNotification')
+            subscribe: withFilter(
+                () => pubSub.asyncIterator('newNotification'),
+                (payload, variables) => {
+                    return (payload.newNotification.ownerId === variables.myId)
+                }
+            )
         },
         newMessage: {
             subscribe: withFilter(

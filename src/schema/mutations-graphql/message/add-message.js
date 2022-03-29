@@ -37,7 +37,6 @@ const addMessage = {
             await myMessages.save()
             await pubSub.publish('newMessage', {newMessage: newMessage})
         } else {
-            console.log('one')
             const messages = await MongooseModels.Message.create({
                 userId: args.myId,
                 messages: [{userId: args.userId, messages: [newMessage]}]

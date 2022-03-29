@@ -1,6 +1,5 @@
 const {GraphQLID,} = require("graphql");
 const {MongooseModels, GraphQlModels, ParamsModels} = require('../../models')
-const {NotificationService} = require('../../../services')
 const {pubSub} = require('../../subscriptions-graphql');
 
 
@@ -13,7 +12,6 @@ const addLikePost = {
     },
 
     async resolve(parent, args) {
-        const userData = await MongooseModels.User.findById(args.userId)
         const ownerData = await MongooseModels.User.findById(args.ownerId)
         const postsData = await MongooseModels.Post.findOne({userId: args.ownerId})
         const newLike = ParamsModels.Like(args)
@@ -28,12 +26,14 @@ const addLikePost = {
         if (!isLike) {
             updatePost.likes.unshift(newLike)
             ownerData.likeCounter = +ownerData.likeCounter + 1
+            const newNotification = ParamsModels.Notification(args, 'add-like-post', updatePost)
+            ownerData.notifications.unshift(newNotification)
+            await pubSub.publish('newNotification', {newNotification: newNotification})
             await pubSub.publish('newLike', {newLike: newLike})
         }
         postsData.markModified('posts')
         await postsData.save()
         await ownerData.save()
-        // await NotificationService.addNotification(args.ownerId, args.userId, newLike, 'addLikePost')
         return postsData
     }
 }
