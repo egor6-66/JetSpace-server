@@ -1,7 +1,6 @@
 const MongooseToken = require('./token/mongoose-token-models');
 const MongooseUser = require('./user/mongoose-user-model');
 const MongoosePost = require('./post/mongoose-post-models');
-const MongooseNotification = require('./notification/mongoose-notification-models');
 const MongooseImage = require('./image/mongoose-image-models');
 const MongooseMessage = require('./message/mongoose-message-models');
 const MongooseSound = require('./sound/mongoose-sound-models');
@@ -10,6 +9,7 @@ const MongooseVideo = require('./video/mongoose-video-models');
 const GraphQlUser = require('./user/graphql-user-model');
 const GraphQlPost = require('./post/graphql-post-models');
 const GraphQlNotification = require('./notification/graphql-notification-models');
+const NotificationsSubType = require('./notification/graphql-notification-sub-model');
 const GraphQlImages = require('./image/graphql-image-models');
 const GraphQlLike = require('./like/graphql-like-models');
 const GraphQlAllLikes = require('./like/graphql-all-like-models');
@@ -30,12 +30,12 @@ const ParamsImage = require('./image/params-image-model');
 const ParamsSound = require('./sound/params-sound-model');
 const ParamsVideo = require('./video/params-video-model');
 const ParamsComment = require('./comment/params-comment-model');
+const notificationParams = require('./notification/params-notification-model');
 
 const MongooseModels = {
     Token: MongooseToken,
     User:MongooseUser,
     Post:MongoosePost,
-    Notification:MongooseNotification,
     Image:MongooseImage,
     Message: MongooseMessage,
     Sound: MongooseSound,
@@ -46,6 +46,7 @@ const GraphQlModels = {
     User:GraphQlUser,
     Post:GraphQlPost,
     Notification:GraphQlNotification,
+    NotificationSub: NotificationsSubType,
     Image:GraphQlImages,
     Like: GraphQlLike,
     AllLikes: GraphQlAllLikes,
@@ -67,7 +68,8 @@ const ParamsModels = {
     Image: ParamsImage,
     Sound: ParamsSound,
     Video: ParamsVideo,
-    Comment: ParamsComment
+    Comment: ParamsComment,
+    Notification: notificationParams,
 }
 
 module.exports = {

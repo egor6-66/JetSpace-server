@@ -3,13 +3,13 @@ const gql = require("graphql-tag");
 
 const Notification = gql`
     type Notification{
-        parentId: ID
-        id: ID
-        date: String
-        title: String
-        content: String
-        userId: ID
-        userAvatar: String
+        id: ID,
+        ownerId: String,
+        userId: String,
+        postId: String,
+        action: String,
+        content: String,
+        contentDate: String,
     }
 `
 module.exports = Notification

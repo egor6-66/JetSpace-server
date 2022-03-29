@@ -17,6 +17,7 @@ const UserSchema = new Schema({
     dislikeCounter: {type: String, default: '0'},
     subscriptions: {type: Array},
     subscribers: {type: Array},
+    notifications: {type: Array},
     isOnline: {type: Boolean},
     theme: {type: String, default: 'light'},
     instagram: {type: String, default: ''},

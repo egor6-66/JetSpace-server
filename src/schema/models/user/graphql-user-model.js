@@ -1,7 +1,4 @@
 const {GraphQLObjectType, GraphQLBoolean, GraphQLID, GraphQLString, GraphQLList,} = require("graphql");
-const GraphQlLike = require("../like/graphql-like-models");
-const GraphQlDislike = require("../dislike/graphql-dislike-models");
-const GraphQlComment = require("../comment/graphql-comment-models");
 
 
 const PostType = new GraphQLObjectType({
@@ -11,6 +8,7 @@ const PostType = new GraphQLObjectType({
         dateSub: {type: GraphQLString},
     })
 })
+
 
 const UserType = new GraphQLObjectType({
     name: 'User',

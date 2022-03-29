@@ -10,7 +10,6 @@ const unfollow = {
     },
 
     async resolve(parent, args) {
-        console.log(args)
         const myData = await MongooseModels.User.findById(args.myId)
         const userData = await MongooseModels.User.findById(args.userId)
 

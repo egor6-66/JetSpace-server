@@ -8,12 +8,15 @@ const {
 const NotificationType = new GraphQLObjectType({
     name: 'Notification',
     fields: () => ({
-        parentId: {type: GraphQLID},
         id: {type: GraphQLID},
         date: {type: GraphQLString},
-        title:{type: GraphQLString},
-        content: {type: GraphQLString},
+        ownerId: {type: GraphQLID},
         userId: {type: GraphQLID},
+        action: {type: GraphQLString},
+        content: {type: GraphQLString},
+        contentDate: {type: GraphQLString},
+        userName: {type: GraphQLString},
+        userLastName: {type: GraphQLString},
         userAvatar: {type: GraphQLString},
     })
 });
@@ -26,8 +29,5 @@ const NotificationsType = new GraphQLObjectType({
     })
 })
 
-const notificationParams = () =>{
-
-}
 
 module.exports = NotificationsType;
