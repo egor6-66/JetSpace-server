@@ -13,7 +13,6 @@ const addDislikePost = {
     },
 
     async resolve(parent, args) {
-        const userData = await MongooseModels.User.findById(args.userId)
         const ownerData = await MongooseModels.User.findById(args.ownerId)
         const postsData = await MongooseModels.Post.findOne({userId: args.ownerId})
         const newDislike = ParamsModels.Dislike(args)
@@ -22,18 +21,20 @@ const addDislikePost = {
         updatePost.likes.length && updatePost.likes.forEach((like, index) => {
             if (like.userId === args.userId) {
                 updatePost.likes.splice(index, 1)
-                ownerData.likeCounter = +ownerData.likeCounter - 1
             }
         })
         if (!isDislike) {
             updatePost.dislikes.unshift(newDislike)
-            ownerData.dislikeCounter = +ownerData.dislikeCounter + 1
+            if(ownerData.id !== args.userId){
+                const newNotification = ParamsModels.Notification(args, 'add-dislike-post', updatePost)
+                ownerData.notifications.unshift(newNotification)
+                await pubSub.publish('newNotification', {newNotification: newNotification})
+            }
             await pubSub.publish('newDislike', {newDislike: newDislike})
         }
         postsData.markModified('posts')
         await postsData.save()
         await ownerData.save()
-        // await NotificationService.addNotification(args.ownerId, args.userId, newLike, 'addLikePost')
         return postsData
     }
 }

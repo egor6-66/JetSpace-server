@@ -20,15 +20,15 @@ const addLikePost = {
         updatePost.dislikes.length && updatePost.dislikes.forEach((dislike, index) => {
             if (dislike.userId === args.userId) {
                 updatePost.dislikes.splice(index, 1)
-                ownerData.dislikeCounter = +ownerData.likeCounter - 1
             }
         })
         if (!isLike) {
             updatePost.likes.unshift(newLike)
-            ownerData.likeCounter = +ownerData.likeCounter + 1
-            const newNotification = ParamsModels.Notification(args, 'add-like-post', updatePost)
-            ownerData.notifications.unshift(newNotification)
-            await pubSub.publish('newNotification', {newNotification: newNotification})
+            if(ownerData.id !== args.userId) {
+                const newNotification = ParamsModels.Notification(args, 'add-like-post', updatePost)
+                ownerData.notifications.unshift(newNotification)
+                await pubSub.publish('newNotification', {newNotification: newNotification})
+            }
             await pubSub.publish('newLike', {newLike: newLike})
         }
         postsData.markModified('posts')
