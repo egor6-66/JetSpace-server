@@ -1,5 +1,7 @@
 const {GraphQLID,} = require("graphql");
-const {MongooseModels, GraphQlModels} = require('../../models')
+const {MongooseModels, GraphQlModels, ParamsModels} = require('../../models')
+const {pubSub} = require("../../subscriptions-graphql");
+const moment = require("moment");
 
 
 const unfollow = {
@@ -12,12 +14,21 @@ const unfollow = {
     async resolve(parent, args) {
         const myData = await MongooseModels.User.findById(args.myId)
         const userData = await MongooseModels.User.findById(args.userId)
+        const dateNew = moment().unix()
 
-        const indexInMyData = myData.subscriptions.indexOf(args.userId)
-        myData.subscriptions.splice(indexInMyData, 1)
-        const indexInUserData = userData.subscriptions.indexOf(args.myId)
-        userData.subscribers.splice(indexInUserData, 1)
-
+        myData?.subscriptions?.forEach((item, index) => {
+            if(item.userId === args.userId) {
+                myData.subscriptions.splice(index, 1)
+            }
+        })
+        userData?.subscribers?.forEach((item, index) => {
+            if(item.userId === args.myId) {
+                userData.subscribers.splice(index, 1)
+            }
+        })
+        const newNotification = ParamsModels.Notification(args, 'follow', {content: myData.id, contentDate: dateNew})
+        myData.notifications.unshift(newNotification)
+        await pubSub.publish('newNotification', {newNotification: newNotification})
         await myData.save()
         await userData.save()
         return userData
