@@ -1,8 +1,8 @@
 const gql = require('graphql-tag');
 const {PubSub} = require('graphql-subscriptions');
-const { withFilter } = require('graphql-subscriptions') ;
+const {withFilter} = require('graphql-subscriptions');
 const {makeExecutableSchema} = require('graphql-tools');
-const {Post, Dislike, Like, Notification, Message, Comment} = require('./models')
+const {Post, Dislike, Like, Notification, Message, Comment, UserTyping} = require('./models')
 const pubSub = new PubSub();
 
 
@@ -13,6 +13,7 @@ const typeDefs = gql`
     ${Post}
     ${Notification}
     ${Message}
+    ${UserTyping}
 
     type Query{
         getUserPosts: [Post]
@@ -26,6 +27,7 @@ const typeDefs = gql`
         newDislike: Dislike
         newNotification(myId: ID): Notification
         newMessage(userId: String, myId: String): Message
+        userTypingSub(userId: String, myId: String): UserTyping
         newComment: Comment
     }
 `
@@ -68,7 +70,17 @@ const resolvers = {
                 }
             )
         },
-    }
+        userTypingSub: {
+            subscribe: withFilter(
+                () => pubSub.asyncIterator('userTypingSub'),
+                (payload, variables) => {
+                    return (
+                        variables.myId === payload.userTypingSub.userId
+                    )
+                }
+            )
+        }
+    },
 }
 
 exports.pubSub = pubSub;
