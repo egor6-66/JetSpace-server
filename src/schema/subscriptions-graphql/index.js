@@ -75,7 +75,8 @@ const resolvers = {
                 () => pubSub.asyncIterator('userTypingSub'),
                 (payload, variables) => {
                     return (
-                        variables.myId === payload.userTypingSub.userId
+                        variables.myId === payload.userTypingSub.userId &&
+                        variables.userId === payload.userTypingSub.myId
                     )
                 }
             )
