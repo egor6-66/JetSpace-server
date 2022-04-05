@@ -24,6 +24,14 @@ const addMessage = {
             found ? found.messages.push(newMessage) : userMessages.messages.unshift({userId: args.myId, messages: [newMessage]})
             await userMessages.markModified('messages');
             await userMessages.save()
+            if(userData.id === args.userId && userMessages.messageLocation !== args.myId) {
+                userMessages.newMessages.push(args.myId)
+                const newNotification = ParamsModels.Notification({ownerId: args.userId, userId: args.myId}, 'new-message', newMessage)
+                userData.notifications.unshift(newNotification)
+                await pubSub.publish('newNotification', {newNotification: newNotification})
+                await userData.save()
+                await userMessages.save()
+            }
         } else {
             await MongooseModels.Message.create({
                 userId: args.userId,
@@ -44,6 +52,7 @@ const addMessage = {
             await pubSub.publish('newMessage', {newMessage: newMessage})
             return messages
         }
+
         const messages = myMessages.messages.find(message => message.userId === args.userId)
         return MessageDTO(messages, userData)
     }

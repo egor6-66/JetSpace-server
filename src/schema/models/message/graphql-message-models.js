@@ -17,6 +17,8 @@ const MessagesType = new GraphQLObjectType({
     name: 'Messages',
     fields: () => ({
         userId: {type: GraphQLID},
+        messageLocation: {type: GraphQLString},
+        newMessages: {type: new GraphQLList(GraphQLString)},
         userName: {type: GraphQLString},
         userAvatar: {type: GraphQLString},
         userLastName: {type: GraphQLString},

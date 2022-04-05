@@ -1,10 +1,14 @@
-const {v4: uuidv4} = require("uuid");
+const moment = require("moment");
 
 
-const imageParams = (parentId, path) => {
+const imageParams = (parentId, path, name) => {
+
+    const dateNow = moment().unix()
+
     return {
+        date: dateNow,
         parentId: parentId,
-        id: uuidv4(),
+        id: name,
         path: path,
     }
 }

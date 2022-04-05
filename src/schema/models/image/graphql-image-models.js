@@ -12,6 +12,7 @@ const ImageType = new GraphQLObjectType({
         parentId: {type: GraphQLID},
         id: {type: GraphQLID},
         path: {type: GraphQLString},
+        date: {type: GraphQLString},
     })
 })
 

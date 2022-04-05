@@ -1,9 +1,10 @@
-const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList,} = require("graphql");
+const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLBoolean,} = require("graphql");
 
 
 const DialogType = new GraphQLObjectType({
     name: 'Dialog',
     fields: () => ({
+        newMessages: {type: GraphQLBoolean},
         userId: {type: GraphQLID},
         userName: {type: GraphQLString},
         userLastName: {type: GraphQLString},

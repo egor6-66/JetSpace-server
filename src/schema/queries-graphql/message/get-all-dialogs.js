@@ -12,10 +12,17 @@ const getAllDialogs = {
     async resolve(parent, args) {
         const response = await MongooseModels.Message.findOne({userId: args.id})
         const allDialogs = {id: response.userId, dialogs: []}
-        for await (let dialog of response.messages){
-           const userData = await MongooseModels.User.findById(dialog.userId)
+        for await (let dialog of response.messages) {
+            const userData = await MongooseModels.User.findById(dialog.userId)
             delete dialog.messages
-            allDialogs.dialogs.push(MessageDTO(dialog, userData))
+            if (response.newMessages.length) {
+                for (let newMessage of response.newMessages) {
+                    allDialogs.dialogs.push(MessageDTO(dialog, userData, newMessage === userData.id))
+                }
+            } else {
+                allDialogs.dialogs.push(MessageDTO(dialog, userData, false))
+            }
+
         }
         return allDialogs
     }
