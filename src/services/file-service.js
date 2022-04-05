@@ -1,17 +1,9 @@
 const {MongooseModels, ParamsModels} = require('../schema/models');
-const S3 = require('aws-sdk/clients/s3');
+const s3 = require('../instances/aws')
 const {v4: uuidv4} = require("uuid");
-const Jimp = require('jimp');
 
 
-const s3 = new S3({
-    accessKeyId: process.env.S3_ACCESS_KEY_ID,
-    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-    endpoint: process.env.S3_ENDPOINT,
-    s3ForcePathStyle: true,
-    region: 'ru-1',
-    apiVersion: 'latest'
-});
+
 
 const deleteBeforeAdd = async (filePath) => {
     const path = filePath.split('/').slice(-3).join('/')
@@ -26,19 +18,20 @@ const deleteBeforeAdd = async (filePath) => {
     })
 }
 
-const getFileKey = (key, myId, file, userId) => {
-    if (`${key}` === 'headerAvatar') return `users/${myId}/${key}/${uuidv4()}`
-    if (`${key}` === 'avatar') return `users/${myId}/${key}s/${file[key].name}`
-    if (`${key}` === 'voice') return `users/${myId}/messages/${userId}/${key}s/${uuidv4()}`
+const getFileKey = (key, myId, file, userId,fileName) => {
+    if (`${key}` === 'headerAvatar') return `users/${myId}/${key}/${fileName}`
+    if (`${key}` === 'avatar') return `users/${myId}/${key}s/${fileName}`
+    if (`${key}` === 'voice') return `users/${myId}/messages/${userId}/${key}s/${fileName}`
 }
 
 class FileService {
     async uploadFile(file, myId, userId) {
         const key = Object.keys(file)
         const userData = await MongooseModels.User.findById(myId)
+        const fileName = uuidv4()
         const params = {
             Bucket: process.env.S3_BUCKET_NAME,
-            Key: getFileKey(key, myId, file, userId),
+            Key: getFileKey(key, myId, file, userId, fileName),
             Body: file[key].data,
         }
 
@@ -57,12 +50,12 @@ class FileService {
             if (`${key}` === 'avatar') {
                 const imagesData = await MongooseModels.Image.findOne({userId: myId})
                 if (imagesData) {
-                    imagesData.images.unshift(ParamsModels.Image(imagesData._id, imgUrl))
+                    imagesData.images.unshift(ParamsModels.Image(imagesData._id, imgUrl, fileName))
                     userData.avatar = imgUrl
                     await imagesData.save()
                 } else {
                     const newImagesData = await MongooseModels.Image.create({userId: myId})
-                    newImagesData.images.unshift(ParamsModels.Image(newImagesData._id, imgUrl))
+                    newImagesData.images.unshift(ParamsModels.Image(newImagesData._id, imgUrl, fileName))
                     userData.avatar = imgUrl
                     await newImagesData.save()
                 }
