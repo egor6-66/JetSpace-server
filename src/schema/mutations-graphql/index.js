@@ -5,6 +5,7 @@ const editStatus = require('./user/edit-status');
 const editAvatar = require('./user/edit-avatar');
 const removePhoto = require('./user/remove-photo');
 const addPost = require('./post/add-post');
+const removePost = require('./post/remove-post');
 const addCommentPost = require('./post/add-comment-post');
 const addLikePost = require('./post/add-like-post');
 const addDislikePost = require('./post/add-dislike-post');
@@ -27,6 +28,7 @@ const Mutation = new GraphQLObjectType({
         editAvatar,
         removePhoto,
         addPost,
+        removePost,
         addCommentPost,
         addLikePost,
         addDislikePost,
