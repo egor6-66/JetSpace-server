@@ -2,6 +2,7 @@ const {GraphQLObjectType} = require("graphql");
 
 const editProfile = require('./user/edit-profile');
 const editStatus = require('./user/edit-status');
+const editOnline = require('./user/edit-online');
 const editAvatar = require('./user/edit-avatar');
 const removePhoto = require('./user/remove-photo');
 const addPost = require('./post/add-post');
@@ -25,6 +26,7 @@ const Mutation = new GraphQLObjectType({
     fields: {
         editProfile,
         editStatus,
+        editOnline,
         editAvatar,
         removePhoto,
         addPost,
